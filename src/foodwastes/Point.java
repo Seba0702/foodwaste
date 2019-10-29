@@ -2,34 +2,31 @@ package foodwastes;
 
 public class Point {
 
-private double index =0; 
+    private double index = 0;
 
-public Point()
-{
-    
-}
+    public Point() {
 
-public Point (double index)
-{
-this.index = index;
+    }
 
-}
+    public Point(double index) {
+        this.index = index;
 
-public void setPointPlusOne(){
+    }
 
-    
-this.index+=1;
+    public void setPointPlusOne() {
 
-}
-public void setPointMinusOne(double index){
+        this.index += 1;
 
-    
-this.index=index-=1;
+    }
 
-}
+    public void setPointMinusOne(double index) {
 
-public double getPoint(){
-return this.index+=1;              
-}
+        this.index = index -= 1;
+
+    }
+
+    public double getPoint() {
+        return this.index += 1;
+    }
 
 }
