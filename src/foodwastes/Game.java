@@ -12,6 +12,7 @@ public class Game
     private Room currentRoom;
     private Point currentPoints;   
     private Characters player;
+    private int test = 5;
     ArrayList<String> inventory = new ArrayList<String>();
 
     public Game() 
