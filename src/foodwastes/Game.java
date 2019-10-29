@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class Game 
 {
+    Time time = new Time();
     private Parser parser;
     private Room currentRoom;
     private Point currentPoints;   
@@ -184,9 +185,9 @@ public class Game
         
         System.out.println("Ready to start?");
         String commandYesToBegin = scan.next();
-        
+        time.setDate(0, 16, 0);
         System.out.println();
-        System.out.println(currentRoom.getLongDescription());
+        System.out.println(currentRoom.getLongDescription()+"The time is"+time.getDateOfDays()+" "+"the clock is"+" "+time.getDateOfHours()+":"+time.getDateOfMinutes());
         listRoomItems();
     }
 

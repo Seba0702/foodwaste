@@ -2,7 +2,7 @@ package foodwastes;
 
 public enum CommandWord
 {
-    GO("go"), QUIT("quit"), HELP("help"), UNKNOWN("?"), PICKUP("pickup"), BALANCE("balance"), DROP("drop"), INVENTORY("inventory");
+    GO("go"), QUIT("quit"), HELP("help"), UNKNOWN("?"), PICKUP("pickup"), BALANCE("balance"), DROP("drop"), INVENTORY("inventory"), SLEEP("sleep");
     
     private String commandString;
     
