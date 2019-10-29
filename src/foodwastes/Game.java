@@ -43,23 +43,23 @@ public class Game
         outside.setExit("north", loesMarket);
 
         apartment.setExit("west", bedroom);
-        apartment.setExit("south", outside);
+        apartment.setExit("north", outside);
         apartment.setExit("east", kitchen);
-        apartment.setExit("north", livingroom);
+        apartment.setExit("south", livingroom);
 
-        bedroom.setExit("south", apartment);
-        bedroom.setExit("east", livingroom);
+        bedroom.setExit("east", apartment);
+        bedroom.setExit("north", livingroom);
         
-        livingroom.setExit("south", apartment);
-        livingroom.setExit("west", bedroom);
-        livingroom.setExit("east", kitchen);
+        livingroom.setExit("north", apartment);
+        livingroom.setExit("east", bedroom);
+        livingroom.setExit("west", kitchen);
         
-        kitchen.setExit("south", apartment);
-        kitchen.setExit("west", livingroom);
+        kitchen.setExit("north", apartment);
+        kitchen.setExit("east", livingroom);
         
-        supermarked.setExit("south", outside);
+        supermarked.setExit("west", outside);
         
-        McDonalds.setExit("south", outside);
+        McDonalds.setExit("east", outside);
 
         loesMarket.setExit("south", outside);
         
@@ -86,6 +86,12 @@ public class Game
         
         kitchenItems.add("Apple");
         kitchenItems.add("Pie");
+        
+        supermarkedItems.add("Meat");
+        supermarkedItems.add("Milk");
+        supermarkedItems.add("Cake");
+        supermarkedItems.add("Rice");
+        supermarkedItems.add("Rye Bread");
         
         
         // Sending those items to all the room instances. 
@@ -137,7 +143,7 @@ public class Game
     private void printWelcome()
     {
         Scanner scan = new Scanner(System.in);
-        
+        /*
         System.out.println();
         System.out.println("Welcome to Food Waste!");
         System.out.println("What is your name?");
@@ -188,7 +194,7 @@ public class Game
         
         System.out.println("Ready to start?");
         String commandYesToBegin = scan.next();
-
+*/
         time.setDate(0, 16, 0);
         System.out.println();
         System.out.println(currentRoom.getLongDescription()+"The time is"+time.getDateOfDays()+" "+"the clock is"+" "+time.getDateOfHours()+":"+time.getDateOfMinutes());
