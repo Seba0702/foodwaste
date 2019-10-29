@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class Game 
 {
     Time time = new Time();
+    private String name;
     private Parser parser;
     private Room currentRoom;
     private Point currentPoints;   
@@ -134,11 +135,11 @@ public class Game
     private void printWelcome()
     {
         Scanner scan = new Scanner(System.in);
-        
+        /*
         System.out.println();
         System.out.println("Welcome to Food Waste!");
         System.out.println("What is your name?");
-        String name = scan.next();
+        name = scan.next();
         
         System.out.println("Hey " + name + ", that is a very cool name!");
         System.out.println("Ready to hear about the game? Yes or no?");
@@ -185,6 +186,7 @@ public class Game
         
         System.out.println("Ready to start?");
         String commandYesToBegin = scan.next();
+*/
         time.setDate(0, 16, 0);
         System.out.println();
         System.out.println(currentRoom.getLongDescription()+"The time is"+time.getDateOfDays()+" "+"the clock is"+" "+time.getDateOfHours()+":"+time.getDateOfMinutes());
@@ -219,6 +221,9 @@ public class Game
         }
         else if (commandWord == CommandWord.INVENTORY) {
             checkInventory(command);
+        }
+        else if (commandWord == CommandWord.BALANCE) {
+            getBalance(command);
         }
         return wantToQuit;
     }
@@ -350,4 +355,9 @@ public class Game
         }
     }
 
+    monetarySystem m1 = new monetarySystem();
+    
+    public void getBalance(Command command) {
+        System.out.println("You have " + m1.balance + " kr., in your account");
+    }
 }
