@@ -13,7 +13,7 @@ public class Game
     private Room currentRoom;
     private Point currentPoints;   
     private Characters player;
-    private int test5 = 5;
+    
     ArrayList<String> inventory = new ArrayList<String>();
 
     public Game() 
