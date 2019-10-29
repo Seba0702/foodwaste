@@ -1,4 +1,4 @@
-package foodwaste.src.foodwastes;
+package foodwastes;
 
 import java.util.Scanner;
 import java.util.Arrays;
