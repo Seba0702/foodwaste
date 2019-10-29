@@ -19,18 +19,18 @@ private int days=0;
 
 private boolean inBed =false;
 
-Time()
-{
+    Time()
+    {
 
-}
+    }
 
 
-Time(int days,int hours, int minutes)
-{
-this.days=days;
-this.hours=hours;
-this.minutes=minutes;
-}
+    Time(int days,int hours, int minutes)
+    {
+    this.days=days;
+    this.hours=hours;
+    this.minutes=minutes;
+    }
 
 Time(int hours, int days, int minutes,boolean inBed)
 {
@@ -88,10 +88,10 @@ public boolean getInBed()
 }
         
 
-public void SetInBed()
-{
-this.inBed=true;    
-} 
+    public void SetInBed()
+    {
+    this.inBed=true;    
+    } 
 /*if(time.getDateOfMinutes()==50){
             time.swichHour();
             }
