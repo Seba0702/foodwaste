@@ -1,4 +1,4 @@
-package foodwastes;
+package foodwaste.src.foodwastes;
 
 public enum CommandWord
 {

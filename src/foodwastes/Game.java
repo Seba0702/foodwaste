@@ -1,4 +1,5 @@
-package foodwastes;
+package foodwaste.src.foodwastes;
+
 import java.util.Scanner;
 import java.util.Arrays;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package foodwastes;
+package foodwaste.src.foodwastes;
 
 import java.util.Set;
 import java.util.HashMap;
