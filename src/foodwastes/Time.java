@@ -10,9 +10,7 @@ package foodwastes;
  * @author mathi
  */
 public class Time {
-
-private int minutes=0;
-
+    
 private int hours=0;
 
 private int days=0;
@@ -25,25 +23,24 @@ private boolean inBed =false;
     }
 
 
-    Time(int days,int hours, int minutes)
-    {
-    this.days=days;
-    this.hours=hours;
-    this.minutes=minutes;
-    }
-
-Time(int hours, int days, int minutes,boolean inBed)
+    Time(int days,int hours)
 {
 this.days=days;
 this.hours=hours;
-this.minutes=minutes;
+
+}
+
+Time(int hours, int days, boolean inBed)
+{
+this.days=days;
+this.hours=hours;
 this.inBed=inBed;
 }
 
-public void setDate(int days, int hours, int minutes){
+public void setDate(int days, int hours){
 this.days=days;
 this.hours=hours;
-this.minutes=minutes;
+
 }
 
 public int getDateOfHours(){
@@ -55,14 +52,8 @@ public int getDateOfDays(){
 return days;
     
 }
-
-public int getDateOfMinutes(){
-return minutes;
-    
-}
-
 public void swichDay(){
-if(this.hours==20| this.minutes==0 || this.inBed==true){
+if(this.inBed==true){
     this.days+=1;
     this.hours=6;
     this.inBed=false;
@@ -70,28 +61,22 @@ if(this.hours==20| this.minutes==0 || this.inBed==true){
 }
 
 public void swichHour(){
-if(this.minutes==50){
-    this.hours+=1;
-    this.minutes=0;
+   this.hours+=1;
     
  }
  
-} 
+ 
 
-public void swicTenMinutes(){
-    this.minutes+=10;
-    
- }
 public boolean getInBed()
 {
  return inBed;   
 }
         
 
-    public void SetInBed()
-    {
-    this.inBed=true;    
-    } 
+public void SetInBed()
+{
+this.inBed=true;    
+} 
 /*if(time.getDateOfMinutes()==50){
             time.swichHour();
             }

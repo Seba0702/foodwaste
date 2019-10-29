@@ -195,9 +195,9 @@ public class Game
         System.out.println("Ready to start?");
         String commandYesToBegin = scan.next();
 */
-        time.setDate(0, 16, 0);
+        time.setDate(0, 16);
         System.out.println();
-        System.out.println(currentRoom.getLongDescription()+"The time is"+time.getDateOfDays()+" "+"the clock is"+" "+time.getDateOfHours()+":"+time.getDateOfMinutes());
+        System.out.println(currentRoom.getLongDescription()+"The time is"+time.getDateOfDays()+" "+"the clock is"+" "+time.getDateOfHours());
         listRoomItems();
     }
 
@@ -235,6 +235,9 @@ public class Game
         }
         else if (commandWord == CommandWord.STATS) {
             stats();
+        }
+        else if (commandWord == CommandWord.SLEEP) {
+            sleep();
         }
         return wantToQuit;
     }
@@ -371,6 +374,18 @@ public class Game
         }
     }
 
+    private void sleep(){
+     if("in the bedroom".equals(currentRoom.getShortDescription())){
+         time.SetInBed();
+         time.getInBed();
+         time.swichDay();
+         System.out.println(currentRoom.getLongDescription()+" "+"you had sleep"+"The time is"+"now"+" "+time.getDateOfDays()+" "+"the clock is"+" "+time.getDateOfHours());
+     }  else {
+         System.out.println(currentRoom.getLongDescription()+""+"you can not sleep in"+" "+currentRoom.getShortDescription()); 
+     }
+        
+    }
+    
     monetarySystem m1 = new monetarySystem();
     
     public void getBalance(Command command) {
