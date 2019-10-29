@@ -68,7 +68,6 @@ public class Game
         currentRoom = outside;
         
         
-        
         // Creating all the inventories for the rooms.
         
         ArrayList<String> outsideItems = new ArrayList<String>();
@@ -99,12 +98,8 @@ public class Game
         apartment.fillArray(apartmentItems);
         bedroom.fillArray(bedroomItems);
         McDonalds.fillArray(mcDonaldsItems);
-        loesMarket.fillArray(loesMarketItems);
-        
-        
-        
+        loesMarket.fillArray(loesMarketItems);   
     }
-    
     
     private void createPoints()
     {
@@ -264,9 +259,9 @@ public class Game
         else
         {
             listRoomItems();
-        } 
-       
+        }   
     }
+    
     private void stats() {
 
         System.out.println("\tHello " + name);
@@ -279,12 +274,10 @@ public class Game
             System.out.println("You are hungry! Get something to eat. Your hunger percentage is: " + player.getHunger());
         }
             
-        
     }
     
     private void dropItem(Command command)
     {
-    
         ArrayList<String> itemsInCurrentRoom = currentRoom.getArray();
         
         String item = command.getSecondWord();
@@ -300,16 +293,11 @@ public class Game
         else
         {
             System.out.println("No such item was found in your inventory. Check your inventory with 'inventory'.");
-        }
-            
-        
-        
-        
+        }       
     }
      
     private void checkInventory(Command command)
     { 
-    
         if(!inventory.isEmpty())
         {
         System.out.println("These items are in your inventory: ");
@@ -322,9 +310,7 @@ public class Game
         }
         else
         {
-        
             System.out.println("Your inventory is emty");
-        
         }
     }
     
