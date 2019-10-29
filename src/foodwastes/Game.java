@@ -47,15 +47,15 @@ public class Game
         apartment.setExit("east", kitchen);
         apartment.setExit("south", livingroom);
 
-        bedroom.setExit("east", apartment);
-        bedroom.setExit("north", livingroom);
+        bedroom.setExit("west", apartment);
+        bedroom.setExit("south", livingroom);
         
         livingroom.setExit("north", apartment);
         livingroom.setExit("east", bedroom);
         livingroom.setExit("west", kitchen);
         
-        kitchen.setExit("north", apartment);
-        kitchen.setExit("east", livingroom);
+        kitchen.setExit("west", apartment);
+        kitchen.setExit("south", livingroom);
         
         supermarked.setExit("west", outside);
         
