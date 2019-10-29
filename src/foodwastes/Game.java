@@ -12,12 +12,13 @@ public class Game
     private Parser parser;
     private Room currentRoom;
     private Point currentPoints;   
+    private Characters player;
     ArrayList<String> inventory = new ArrayList<String>();
 
     public Game() 
     {
         createRooms();
-       
+        createCharacter();       
         createPoints();
         parser = new Parser();
     }
@@ -119,7 +120,12 @@ public class Game
       point.getPoint();
       point.setPointPlusOne();
     }
-    
+    private void createCharacter() {
+//        Characters health, hunger, name;
+
+        player = new Characters(100, 40);
+
+    }    
     public void play() 
     {            
         printWelcome();
@@ -136,7 +142,7 @@ public class Game
     private void printWelcome()
     {
         Scanner scan = new Scanner(System.in);
-        /*
+        
         System.out.println();
         System.out.println("Welcome to Food Waste!");
         System.out.println("What is your name?");
@@ -187,7 +193,7 @@ public class Game
         
         System.out.println("Ready to start?");
         String commandYesToBegin = scan.next();
-*/
+
         time.setDate(0, 16, 0);
         System.out.println();
         System.out.println(currentRoom.getLongDescription()+"The time is"+time.getDateOfDays()+" "+"the clock is"+" "+time.getDateOfHours()+":"+time.getDateOfMinutes());
@@ -226,6 +232,9 @@ public class Game
         else if (commandWord == CommandWord.BALANCE) {
             getBalance(command);
         }
+        else if (commandWord == CommandWord.STATS) {
+            stats();
+        }
         return wantToQuit;
     }
 
@@ -256,6 +265,20 @@ public class Game
             listRoomItems();
         } 
        
+    }
+    private void stats() {
+
+        System.out.println("\tHello " + name);
+        
+        System.out.println("\tYour HP is: " + player.getHealth());
+            
+        if (player.getHunger() > 50) {
+            System.out.println("You are full! Your hunger percentage is: " + player.getHunger());
+        } else {
+            System.out.println("You are hungry! Get something to eat. Your hunger percentage is: " + player.getHunger());
+        }
+            
+        
     }
     
     private void dropItem(Command command)

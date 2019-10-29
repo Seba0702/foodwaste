@@ -9,7 +9,6 @@ public class Room
 {
     private String description;
     private HashMap<String, Room> exits;
-    //String[] items = {};
     ArrayList<String> items = new ArrayList<String>();
 
     public Room(String description) 
