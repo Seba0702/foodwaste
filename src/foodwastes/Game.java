@@ -6,12 +6,14 @@ import java.util.ArrayList;
 
 public class Game 
 {
+    int adsa;
     Time time = new Time();
     private String name;
     private Parser parser;
     private Room currentRoom;
     private Point currentPoints;   
     private Characters player;
+    
     ArrayList<String> inventory = new ArrayList<String>();
 
     public Game() 
