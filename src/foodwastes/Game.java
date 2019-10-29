@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 public class Game 
 {
-    int adsa;
     Time time = new Time();
     private String name;
     private Parser parser;

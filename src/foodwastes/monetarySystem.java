@@ -10,7 +10,6 @@ package foodwastes;
  * @author svane
  */
 public class monetarySystem {
-    public String name;
     public double balance;
     
     public monetarySystem() {
