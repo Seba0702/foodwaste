@@ -299,9 +299,7 @@ public class Game
         {
             System.out.println("No such item was found in your inventory. Check your inventory with 'inventory'.");
         }
-       
-        
-        
+            
         
     }
      
