@@ -84,9 +84,6 @@ public class Game
         outsideItems.add("trash");
         outsideItems.add("key");
         
-        kitchenItems.add("Apple");
-        kitchenItems.add("Pie");
-        
         supermarkedItems.add("Meat");
         supermarkedItems.add("Milk");
         supermarkedItems.add("Cake");
@@ -104,6 +101,10 @@ public class Game
         bedroom.fillArray(bedroomItems);
         McDonalds.fillArray(mcDonaldsItems);
         loesMarket.fillArray(loesMarketItems);   
+        
+        
+        
+        
     }
     
     private void createPoints()
@@ -197,7 +198,8 @@ public class Game
 */
         time.setDate(0, 16);
         System.out.println();
-        System.out.println(currentRoom.getLongDescription()+"The time is"+time.getDateOfDays()+" "+"the clock is"+" "+time.getDateOfHours());
+        System.out.println(currentRoom.getLongDescription());
+        System.out.println("The time is "+time.getDateOfDays()+" the clock is "+time.getDateOfHours());
         listRoomItems();
     }
 
@@ -238,6 +240,9 @@ public class Game
         }
         else if (commandWord == CommandWord.SLEEP) {
             sleep();
+        }
+        else if (commandWord == CommandWord.BUY) {
+            buy(command);
         }
         return wantToQuit;
     }
@@ -304,6 +309,38 @@ public class Game
         }       
     }
      
+    private void buy(Command command)
+    {
+         ArrayList<String> itemsInCurrentRoom = currentRoom.getArray();
+        ArrayList<String> buyableItems = new ArrayList<String>();
+        
+        buyableItems.add("Meat");
+        buyableItems.add("Milk");
+        buyableItems.add("Cake");
+        buyableItems.add("Rice");
+        buyableItems.add("Rye Bread");
+        
+        
+        String item = command.getSecondWord();
+        
+        if(itemsInCurrentRoom.contains(item) & buyableItems.contains(item) )
+        {
+            itemsInCurrentRoom.remove(item); 
+            buyableItems.remove(item); 
+            inventory.add(item);
+            m1.Buy(100.00);
+            System.out.println("You just bought: " + item + ". It cost you: 100.00" );
+            getBalance(command);
+        }
+        else
+        {
+        
+            System.out.println("You are perhaps not inside a store, or the item you are looking for is not in stock");
+        
+        }
+        
+    }
+    
     private void checkInventory(Command command)
     { 
         if(!inventory.isEmpty())
@@ -389,6 +426,6 @@ public class Game
     monetarySystem m1 = new monetarySystem();
     
     public void getBalance(Command command) {
-        System.out.println("You have " + m1.balance + " kr., in your account");
+        System.out.println("You have " + m1.balance + " kr left in your account");
     }
 }
