@@ -43,6 +43,8 @@ this.hours=hours;
 
 }
 
+
+
 public int getDateOfHours(){
 return hours;
     
@@ -61,11 +63,16 @@ if(this.inBed==true){
 }
 
 public void swichHour(){
-   this.hours+=1;
+if(this.hours==24)
+{
+    System.out.println("you need to sleep");
+}
+else{  
+this.hours+=1;
     
  }
  
- 
+}
 
 public boolean getInBed()
 {
