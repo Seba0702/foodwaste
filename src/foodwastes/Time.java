@@ -63,7 +63,7 @@ if(this.inBed==true){
 }
 
 public void swichHour(){
-if(this.hours==24)
+if(this.hours==23)
 {
     System.out.println("you need to sleep");
 }
