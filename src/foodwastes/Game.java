@@ -9,9 +9,10 @@ public class Game
     Time time = new Time();
     private String name;
     private Parser parser;
-    private Room currentRoom;
+    private Room currentRoom, supermarked, McDonalds, loesMarket ;
     private Point currentPoints;   
     private Characters player;
+    
     
     ArrayList<String> inventory = new ArrayList<String>();
 
@@ -26,7 +27,7 @@ public class Game
 
     private void createRooms()
     {
-        Room outside, apartment, kitchen, livingroom, bedroom, supermarked, McDonalds, loesMarket;
+        Room outside, apartment, kitchen, livingroom, bedroom;
       
         outside = new Room("in the Streets of Copenhagen");
         apartment = new Room("in the entrance of your apartment");
@@ -63,6 +64,7 @@ public class Game
 
         loesMarket.setExit("south", outside);
         
+        
 
         currentRoom = outside;
         
@@ -88,8 +90,11 @@ public class Game
         supermarkedItems.add("Milk");
         supermarkedItems.add("Cake");
         supermarkedItems.add("Rice");
-        supermarkedItems.add("Rye Bread");
+        supermarkedItems.add("Rye-Bread");
         
+        mcDonaldsItems.add("Cheese-burger");
+        
+        loesMarketItems.add("100g-rice");
         
         // Sending those items to all the room instances. 
         
@@ -311,15 +316,12 @@ public class Game
      
     private void buy(Command command)
     {
-         ArrayList<String> itemsInCurrentRoom = currentRoom.getArray();
+        ArrayList<String> itemsInCurrentRoom = currentRoom.getArray();
         ArrayList<String> buyableItems = new ArrayList<String>();
         
-        buyableItems.add("Meat");
-        buyableItems.add("Milk");
-        buyableItems.add("Cake");
-        buyableItems.add("Rice");
-        buyableItems.add("Rye Bread");
-        
+        buyableItems.addAll(supermarked.getArray());
+        buyableItems.addAll(McDonalds.getArray());
+        buyableItems.addAll(loesMarket.getArray());
         
         String item = command.getSecondWord();
         
