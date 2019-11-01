@@ -273,7 +273,7 @@ public class Game
     private void stats() {
 
         System.out.println("\tHello " + name);
-        
+        //new
         System.out.println("\tYour HP is: " + p1.getHealth());
             
         if (p1.getHunger() > 50) {
