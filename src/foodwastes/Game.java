@@ -315,19 +315,38 @@ public class Game
              
         String item = command.getSecondWord();
         
-        if(itemsInCurrentRoom.contains(item) & buyableItems.contains(item) & m1.getBalance() >= 100 )
+        if(itemsInCurrentRoom.contains(item))
         {
-            itemsInCurrentRoom.remove(item); 
-            buyableItems.remove(item); 
-            inventory.add(item);
-            m1.Buy(100.00);
-            System.out.println("You just bought: " + item + ". It cost you: 100.00" );
-            getBalance(command);
+            if(buyableItems.contains(item))
+            {
+                if(m1.balance >= 100)
+                {
+                    itemsInCurrentRoom.remove(item); 
+                    buyableItems.remove(item); 
+                    inventory.add(item);
+                    m1.Buy(100.00);
+                    System.out.println("You just bought: " + item + ". It cost you: 100.00" );
+                    getBalance(command);
+                
+                }
+                else
+                {
+                    System.out.println("You do not have enough money to buy this item");
+                    getBalance(command);
+                }
+            }
+            else
+            {
+                System.out.println("That item can not be bought!");
+            }
+            
         }
         else
         {
-            System.out.println("You are perhaps not inside a store, or the item you are looking for is not in stock. You could also just be broke AF.");
+            System.out.println("There is no such item in this room");
+            listRoomItems();
         }       
+        
     }
     
     private void checkInventory(Command command)
