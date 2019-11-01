@@ -23,7 +23,7 @@ public class Characters {
     public int getHealth() {
         return health;
     }
-    
+//new    
     public int getHunger() {
         return hunger;
     }
