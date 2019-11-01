@@ -11,15 +11,14 @@ public class Game
     private Parser parser;
     private Room currentRoom, supermarked, McDonalds, loesMarket ;
     private Point currentPoints;   
-    private Characters player;
+    Characters p1 = new Characters();
     
     
     ArrayList<String> inventory = new ArrayList<String>();
 
     public Game() 
     {
-        createRooms();
-        createCharacter();       
+        createRooms();       
         createPoints();
         parser = new Parser();
     }
@@ -126,12 +125,6 @@ public class Game
       
       point.getPoint();
       point.setPointPlusOne();
-    }
-    private void createCharacter() {
-//        Characters health, hunger, name;
-
-        player = new Characters(100, 40);
-
     }    
     public void play() 
     {            
@@ -283,12 +276,12 @@ public class Game
 
         System.out.println("\tHello " + name);
         
-        System.out.println("\tYour HP is: " + player.getHealth());
+        System.out.println("\tYour HP is: " + p1.getHealth());
             
-        if (player.getHunger() > 50) {
-            System.out.println("You are full! Your hunger percentage is: " + player.getHunger());
+        if (p1.getHunger() > 50) {
+            System.out.println("You are full! Your hunger percentage is: " + p1.getHunger());
         } else {
-            System.out.println("You are hungry! Get something to eat. Your hunger percentage is: " + player.getHunger());
+            System.out.println("You are hungry! Get something to eat. Your hunger percentage is: " + p1.getHunger());
         }
             
     }
