@@ -9,9 +9,10 @@ public class Game
     Time time = new Time();
     private String name;
     private Parser parser;
-    private Room currentRoom;
+    private Room currentRoom, supermarked, McDonalds, loesMarket ;
     private Point currentPoints;   
     private Characters player;
+    
     
     ArrayList<String> inventory = new ArrayList<String>();
 
@@ -26,7 +27,7 @@ public class Game
 
     private void createRooms()
     {
-        Room outside, apartment, kitchen, livingroom, bedroom, supermarked, McDonalds, loesMarket;
+        Room outside, apartment, kitchen, livingroom, bedroom;
       
         outside = new Room("in the Streets of Copenhagen");
         apartment = new Room("in the entrance of your apartment");
@@ -62,7 +63,6 @@ public class Game
         McDonalds.setExit("east", outside);
 
         loesMarket.setExit("south", outside);
-        
 
         currentRoom = outside;
         
@@ -88,8 +88,11 @@ public class Game
         supermarkedItems.add("Milk");
         supermarkedItems.add("Cake");
         supermarkedItems.add("Rice");
-        supermarkedItems.add("Rye Bread");
+        supermarkedItems.add("Rye-Bread");
         
+        mcDonaldsItems.add("Cheese-burger");
+        
+        loesMarketItems.add("100g-rice");
         
         // Sending those items to all the room instances. 
         
@@ -168,7 +171,6 @@ public class Game
         {
             // do nothing
         }
-
         System.out.println("In this game you will try to experience how a common household creates food waste on a daily basis");
        
         try {
@@ -199,7 +201,7 @@ public class Game
         time.setDate(0, 16);
         System.out.println();
         System.out.println(currentRoom.getLongDescription());
-        System.out.println("The time is "+time.getDateOfDays()+" the clock is "+time.getDateOfHours());
+        System.out.println("It is day: "+time.getDateOfDays()+" the clock is "+time.getDateOfHours());
         listRoomItems();
     }
 
@@ -311,15 +313,12 @@ public class Game
      
     private void buy(Command command)
     {
-         ArrayList<String> itemsInCurrentRoom = currentRoom.getArray();
+        ArrayList<String> itemsInCurrentRoom = currentRoom.getArray();
         ArrayList<String> buyableItems = new ArrayList<String>();
         
-        buyableItems.add("Meat");
-        buyableItems.add("Milk");
-        buyableItems.add("Cake");
-        buyableItems.add("Rice");
-        buyableItems.add("Rye Bread");
-        
+        buyableItems.addAll(supermarked.getArray());
+        buyableItems.addAll(McDonalds.getArray());
+        buyableItems.addAll(loesMarket.getArray());
         
         String item = command.getSecondWord();
         
@@ -334,9 +333,7 @@ public class Game
         }
         else
         {
-        
             System.out.println("You are perhaps not inside a store, or the item you are looking for is not in stock");
-        
         }
         
     }
@@ -433,6 +430,8 @@ public class Game
     monetarySystem m1 = new monetarySystem();
     
     public void getBalance(Command command) {
-        System.out.println("You have " + m1.balance + " kr left in your account");
+        System.out.println("You have " + m1.balance + " kr. left in your account");
     }
 }
+
+
