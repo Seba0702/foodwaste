@@ -372,12 +372,19 @@ public class Game
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
-        }
-        else {
+        } else if(time.getDateOfHours()==0){
+            
             currentRoom = nextRoom;
-            System.out.println(currentRoom.getLongDescription());
+            System.out.println(currentRoom.getLongDescription()+time.getDateOfDays()+" "+"the clock is"+" "+time.getDateOfHours()+" "+"You need to sleep");
+            listRoomItems();
+        } else {  
+            
+            time.swichHour();
+            currentRoom = nextRoom;
+            System.out.println(currentRoom.getLongDescription()+time.getDateOfDays()+" "+"the clock is"+" "+time.getDateOfHours());
             listRoomItems();
         }
+        
     }
     
     private void listRoomItems()
