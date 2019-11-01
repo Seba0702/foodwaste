@@ -63,8 +63,6 @@ public class Game
         McDonalds.setExit("east", outside);
 
         loesMarket.setExit("south", outside);
-        
-        
 
         currentRoom = outside;
         
@@ -203,7 +201,7 @@ public class Game
         time.setDate(0, 16);
         System.out.println();
         System.out.println(currentRoom.getLongDescription());
-        System.out.println("The time is "+time.getDateOfDays()+" the clock is "+time.getDateOfHours());
+        System.out.println("It is day: "+time.getDateOfDays()+" the clock is "+time.getDateOfHours());
         listRoomItems();
     }
 
@@ -335,9 +333,7 @@ public class Game
         }
         else
         {
-        
             System.out.println("You are perhaps not inside a store, or the item you are looking for is not in stock");
-        
         }
         
     }
@@ -427,7 +423,7 @@ public class Game
     monetarySystem m1 = new monetarySystem();
     
     public void getBalance(Command command) {
-        System.out.println("You have " + m1.balance + " kr left in your account");
+        System.out.println("You have " + m1.balance + " kr. left in your account");
     }
 }
 
