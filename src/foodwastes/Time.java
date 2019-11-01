@@ -15,7 +15,7 @@ private int hours=0;
 
 private int days=0;
 
-private boolean inBed =false;
+
 
     Time()
     {
@@ -30,12 +30,7 @@ this.hours=hours;
 
 }
 
-Time(int hours, int days, boolean inBed)
-{
-this.days=days;
-this.hours=hours;
-this.inBed=inBed;
-}
+
 
 public void setDate(int days, int hours){
 this.days=days;
@@ -50,41 +45,44 @@ return hours;
     
 }
 
-public int getDateOfDays(){
-return days;
+    public int getDateOfDays(){
+    return days;
     
-}
-public void swichDay(){
-if(this.inBed==true){
+    }
+    public void swichDayWithBed(){
+    {
     this.days+=1;
     this.hours=6;
-    this.inBed=false;
- }
+    }
 }
 
-public void swichHour(){
-if(this.hours==0){
+    public void swichDayOutsideOfBedroom(){
+{
+    
+    this.days+=1;
+    this.hours=16;
+ }
+}
+    
+    public void swichHour(){
+    if(this.hours==0){
     System.out.println("you need to sleep");
-}   else if(this.hours==23) {
+    }   else if(this.hours==23) {
         this.hours-=23;        
-}   else {
+    }   else {
           this.hours+=1;            
             
             }
-                
-       
+    }
+    public void checkForDaysQuitGame(){
+    if(this.days>=7){            
+    System.exit(0);   
  
 }
+    }
+   
 
-public boolean getInBed()
-{
- return inBed;   
-}
-        
-
-public void SetInBed()
-{
-this.inBed=true;    
+    
 } 
 /*if(time.getDateOfMinutes()==50){
             time.swichHour();
@@ -95,8 +93,5 @@ this.inBed=true;
             }    
 */
 
-
-
-} 
-
+ 
 
