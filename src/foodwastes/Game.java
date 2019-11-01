@@ -327,8 +327,7 @@ public class Game
         else
         {
             System.out.println("You are perhaps not inside a store, or the item you are looking for is not in stock. You could also just be broke AF.");
-        }
-        
+        }       
     }
     
     private void checkInventory(Command command)
