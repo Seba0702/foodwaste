@@ -17,7 +17,7 @@ public class monetarySystem {
     }
     
     public void Buy (double price) { 
-        balance = price-balance;
+        balance = balance-price;
     }
         
     public double getBalance() {
