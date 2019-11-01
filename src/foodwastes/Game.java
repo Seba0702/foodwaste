@@ -198,7 +198,7 @@ public class Game
         System.out.println("Ready to start?");
         String commandYesToBegin = scan.next();
 */
-        time.setDate(0, 16);
+        time.setDate(1, 16);
         System.out.println();
         System.out.println(currentRoom.getLongDescription());
         System.out.println("It is day: "+time.getDateOfDays()+" the clock is "+time.getDateOfHours());
@@ -372,15 +372,16 @@ public class Game
         } else if(time.getDateOfHours()==0){
             
             currentRoom = nextRoom;
-            System.out.println(currentRoom.getLongDescription()+time.getDateOfDays()+" "+"the clock is"+" "+time.getDateOfHours()+" "+"You need to sleep");
+            System.out.println(currentRoom.getLongDescription()+"It is day: "+time.getDateOfDays()+" the clock is "+time.getDateOfHours());
             listRoomItems();
+            
         } else {  
             
             time.swichHour();
             currentRoom = nextRoom;
-            System.out.println(currentRoom.getLongDescription()+time.getDateOfDays()+" "+"the clock is"+" "+time.getDateOfHours());
+            System.out.println(currentRoom.getLongDescription()+"It is day: "+time.getDateOfDays()+" the clock is "+time.getDateOfHours());
             listRoomItems();
-        }
+                    }
         
     }
     
@@ -416,14 +417,19 @@ public class Game
     }
 
     private void sleep(){
-     if("in the bedroom".equals(currentRoom.getShortDescription())){
-         time.SetInBed();
-         time.getInBed();
-         time.swichDay();
-         System.out.println(currentRoom.getLongDescription()+" "+"you had sleep"+"The time is"+"now"+" "+time.getDateOfDays()+" "+"the clock is"+" "+time.getDateOfHours());
-     }  else {
-         System.out.println(currentRoom.getLongDescription()+""+"you can not sleep in"+" "+currentRoom.getShortDescription()); 
+     if("in the bedroom".equals(currentRoom.getShortDescription()))
+     {
+      time.swichDayWithBed();
+         System.out.println(currentRoom.getLongDescription()+" "+"you had sleep"+"The time is"+"now"+" "+time.getDateOfDays()+" "+"the clock is"+" "+time.getDateOfHours());   
+         time.checkForDaysQuitGame();
+     }  else if(("in the bedroom"!=(currentRoom.getShortDescription()))) {
+        time.swichDayOutsideOfBedroom();
+        System.out.println(currentRoom.getLongDescription()+" "+"you had sleep"+"The time is"+"now"+" "+time.getDateOfDays()+" "+"the clock is"+" "+time.getDateOfHours());
+        System.out.println("It is better to sleep inside your bedroom");
+        time.checkForDaysQuitGame();
      }
+                 
+         
         
     }
     
