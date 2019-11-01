@@ -319,10 +319,10 @@ public class Game
         buyableItems.addAll(supermarked.getArray());
         buyableItems.addAll(McDonalds.getArray());
         buyableItems.addAll(loesMarket.getArray());
-        
+             
         String item = command.getSecondWord();
         
-        if(itemsInCurrentRoom.contains(item) & buyableItems.contains(item) )
+        if(itemsInCurrentRoom.contains(item) & buyableItems.contains(item) & m1.getBalance() >= 100 )
         {
             itemsInCurrentRoom.remove(item); 
             buyableItems.remove(item); 
@@ -333,7 +333,7 @@ public class Game
         }
         else
         {
-            System.out.println("You are perhaps not inside a store, or the item you are looking for is not in stock");
+            System.out.println("You are perhaps not inside a store, or the item you are looking for is not in stock. You could also just be broke AF.");
         }
         
     }
