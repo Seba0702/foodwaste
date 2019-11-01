@@ -11,15 +11,14 @@ public class Game
     private Parser parser;
     private Room currentRoom, supermarked, McDonalds, loesMarket ;
     private Point currentPoints;   
-    private Characters player;
+    Characters p1 = new Characters();
     
     
     ArrayList<String> inventory = new ArrayList<String>();
 
     public Game() 
     {
-        createRooms();
-        createCharacter();       
+        createRooms();       
         createPoints();
         parser = new Parser();
     }
@@ -124,12 +123,6 @@ public class Game
       
       point.getPoint();
       point.setPointPlusOne();
-    }
-    private void createCharacter() {
-//        Characters health, hunger, name;
-
-        player = new Characters(100, 40);
-
     }    
     public void play() 
     {            
@@ -280,13 +273,13 @@ public class Game
     private void stats() {
 
         System.out.println("\tHello " + name);
-        
-        System.out.println("\tYour HP is: " + player.getHealth());
+        //new
+        System.out.println("\tYour HP is: " + p1.getHealth());
             
-        if (player.getHunger() > 50) {
-            System.out.println("You are full! Your hunger percentage is: " + player.getHunger());
+        if (p1.getHunger() > 50) {
+            System.out.println("You are full! Your hunger percentage is: " + p1.getHunger());
         } else {
-            System.out.println("You are hungry! Get something to eat. Your hunger percentage is: " + player.getHunger());
+            System.out.println("You are hungry! Get something to eat. Your hunger percentage is: " + p1.getHunger());
         }
             
     }
@@ -319,22 +312,40 @@ public class Game
         buyableItems.addAll(supermarked.getArray());
         buyableItems.addAll(McDonalds.getArray());
         buyableItems.addAll(loesMarket.getArray());
-        
+             
         String item = command.getSecondWord();
         
-        if(itemsInCurrentRoom.contains(item) & buyableItems.contains(item) )
+        if(itemsInCurrentRoom.contains(item))
         {
-            itemsInCurrentRoom.remove(item); 
-            buyableItems.remove(item); 
-            inventory.add(item);
-            m1.Buy(100.00);
-            System.out.println("You just bought: " + item + ". It cost you: 100.00" );
-            getBalance(command);
+            if(buyableItems.contains(item))
+            {
+                if(m1.balance >= 100)
+                {
+                    itemsInCurrentRoom.remove(item); 
+                    buyableItems.remove(item); 
+                    inventory.add(item);
+                    m1.Buy(100.00);
+                    System.out.println("You just bought: " + item + ". It cost you: 100.00" );
+                    getBalance(command);
+                
+                }
+                else
+                {
+                    System.out.println("You do not have enough money to buy this item");
+                    getBalance(command);
+                }
+            }
+            else
+            {
+                System.out.println("That item can not be bought!");
+            }
+            
         }
         else
         {
-            System.out.println("You are perhaps not inside a store, or the item you are looking for is not in stock");
-        }
+            System.out.println("There is no such item in this room");
+            listRoomItems();
+        }       
         
     }
     
