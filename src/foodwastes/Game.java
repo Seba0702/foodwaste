@@ -173,7 +173,6 @@ public class Game
         {
             // do nothing
         }
-
         System.out.println("In this game you will try to experience how a common household creates food waste on a daily basis");
        
         try {
@@ -431,3 +430,5 @@ public class Game
         System.out.println("You have " + m1.balance + " kr left in your account");
     }
 }
+
+
