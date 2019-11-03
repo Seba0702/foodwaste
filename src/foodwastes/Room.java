@@ -9,7 +9,7 @@ public class Room
 {
     private String description;
     private HashMap<String, Room> exits;
-    ArrayList<String> items = new ArrayList<String>();
+    ArrayList<Item> items = new ArrayList();
 
     public Room(String description) 
     {
@@ -22,21 +22,21 @@ public class Room
     
    
     
-    public void fillArray(ArrayList<String> items)
+    public void fillArray(ArrayList<Item> items)
     {
     
         this.items = items;
         
     }
     
-    public ArrayList<String> getArray()
+    public ArrayList<Item> getArray()
     {
     
         return items;
         
     }
     
-    public void removeItem(String item)
+    public void removeItem(Item item)
     {
         items.remove(item);
         

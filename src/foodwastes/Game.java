@@ -9,12 +9,12 @@ public class Game
     Time time = new Time();
     private String name;
     private Parser parser;
-    private Room currentRoom, supermarked, McDonalds, loesMarket ;
+    private Room currentRoom;
     private Point currentPoints;   
     Characters p1 = new Characters();
     
     
-    ArrayList<String> inventory = new ArrayList<String>();
+    ArrayList<Item> inventory = new ArrayList();
 
     public Game() 
     {
@@ -26,7 +26,7 @@ public class Game
 
     private void createRooms()
     {
-        Room outside, apartment, kitchen, livingroom, bedroom;
+        Room outside, apartment, kitchen, livingroom, bedroom, supermarked, McDonalds, loesMarket;
       
         outside = new Room("in the Streets of Copenhagen");
         apartment = new Room("in the entrance of your apartment");
@@ -68,32 +68,44 @@ public class Game
         
         // Creating all the inventories for the rooms.
         
-        ArrayList<String> outsideItems = new ArrayList<String>();
-        ArrayList<String> supermarkedItems = new ArrayList<String>();
-        ArrayList<String> livingroomItems = new ArrayList<String>();
-        ArrayList<String> kitchenItems = new ArrayList<String>();
-        ArrayList<String> apartmentItems = new ArrayList<String>();
-        ArrayList<String> bedroomItems = new ArrayList<String>();
-        ArrayList<String> mcDonaldsItems = new ArrayList<String>();
-        ArrayList<String> loesMarketItems = new ArrayList<String>();
+        ArrayList<Item> outsideItems = new ArrayList();
+        ArrayList<Item> supermarkedItems = new ArrayList();
+        ArrayList<Item> livingroomItems = new ArrayList();
+        ArrayList<Item> kitchenItems = new ArrayList();
+        ArrayList<Item> apartmentItems = new ArrayList();
+        ArrayList<Item> bedroomItems = new ArrayList();
+        ArrayList<Item> mcDonaldsItems = new ArrayList();
+        ArrayList<Item> loesMarketItems = new ArrayList();
         
         
         // Adding items to the specific rooms
         
-        outsideItems.add("trash");
-        outsideItems.add("key");
+        Item trash, key, meat, milk, cake, rice, ryebread, cheeseburger, rice100g;
         
-        supermarkedItems.add("Meat");
-        supermarkedItems.add("Milk");
-        supermarkedItems.add("Cake");
-        supermarkedItems.add("Rice");
-        supermarkedItems.add("Rye-Bread");
+        milk = new Item("Milk", "This is milk!", 14, true);
+        trash = new Item("Trash", "This is trash!", 0, false);
+        key = new Item("Key", "This is a key!", 0, false);
+        meat = new Item("Meat", "This is meat!", 35, true);
+        cake = new Item("Cake", "This is a whole cake!", 60, true);
+        rice = new Item("Rice", "This is 500g of white rice!", 25, true);
+        ryebread = new Item("Ryebread", "This is a loaf of ryebread", 25, true);
+        cheeseburger = new Item("Cheeseburger", "This is a cheeseburger!", 10, true);
+        rice100g = new Item("100g-Rice", "This is 100g of rice", 5, true);
         
-        mcDonaldsItems.add("Cheese-burger");
         
-        loesMarketItems.add("100g-rice");
+        outsideItems.add(trash);
+        outsideItems.add(key);
         
-        // Sending those items to all the room instances. 
+        supermarkedItems.add(meat);
+        supermarkedItems.add(milk);
+        supermarkedItems.add(cake);
+        supermarkedItems.add(rice);
+        supermarkedItems.add(ryebread);
+        supermarkedItems.add(milk);
+        
+        mcDonaldsItems.add(cheeseburger);
+        
+        loesMarketItems.add(rice100g);
         
         outside.fillArray(outsideItems);
         supermarked.fillArray(supermarkedItems);
@@ -102,11 +114,8 @@ public class Game
         apartment.fillArray(apartmentItems);
         bedroom.fillArray(bedroomItems);
         McDonalds.fillArray(mcDonaldsItems);
-        loesMarket.fillArray(loesMarketItems);   
-        
-        
-        
-        
+        loesMarket.fillArray(loesMarketItems);  
+  
     }
     
     private void createPoints()
@@ -250,24 +259,44 @@ public class Game
     
     private void pickUp(Command command)
     {
-    
-       ArrayList<String> itemsInCurrentRoom = currentRoom.getArray();
+       boolean itemFound = false;
+       
+       ArrayList<Item> itemsInCurrentRoom = currentRoom.getArray();
 
-       String item = command.getSecondWord();
+       String item = command.getSecondWord();      
        
-       
-       if(itemsInCurrentRoom.contains(item))
+       for(int i = 0 ; i < itemsInCurrentRoom.size() ; i++)
        {
-            itemsInCurrentRoom.remove(item); 
+           if(itemsInCurrentRoom.get(i).getName().equals(item))
+           {
+                
+                Item currentItem = itemsInCurrentRoom.get(i);
+                
+                if(!currentItem.isBuyable())
+                {
+                    itemsInCurrentRoom.remove(currentItem); 
                     
-            inventory.add(item);
-            System.out.println("You picked up some " + item);
-            currentRoom.fillArray(itemsInCurrentRoom);   
-        } 
-        else
+                    inventory.add(currentItem);
+                
+                    System.out.println("You picked up some " + currentItem.getName());
+                    currentRoom.fillArray(itemsInCurrentRoom);   
+                    itemFound = true;
+                    break;
+                }
+                else
+                {
+                    System.out.println("Don't try to steal!");
+                    itemFound = true;
+                }
+                
+           }       
+        }  
+        if(!itemFound)
         {
+            System.out.println("There is no such item here");
             listRoomItems();
-        }   
+        }
+     
     }
     
     private void stats() {
@@ -286,68 +315,62 @@ public class Game
     
     private void dropItem(Command command)
     {
-        ArrayList<String> itemsInCurrentRoom = currentRoom.getArray();
+        boolean itemFound = false;
+        
+        ArrayList<Item> itemsInCurrentRoom = currentRoom.getArray();
         
         String item = command.getSecondWord();
         
-        if(inventory.contains(item))
+        for(int i = 0 ; i < inventory.size() ; i++)
         {
-            inventory.remove(item);
-            itemsInCurrentRoom.add(item);
-            currentRoom.fillArray(itemsInCurrentRoom);
-            System.out.println("You dropped some " + item);
-        
+           if(inventory.get(i).getName().equals(item))
+           {
+                Item currentItem = inventory.get(i);
+                
+                inventory.remove(currentItem);
+                itemsInCurrentRoom.add(currentItem);
+                currentRoom.fillArray(itemsInCurrentRoom);
+                System.out.println("You dropped some " + item);
+                itemFound = true;
+                break;
+            }    
         }
-        else
+        
+        if (!itemFound)
         {
             System.out.println("No such item was found in your inventory. Check your inventory with 'inventory'.");
-        }       
+        } 
     }
      
     private void buy(Command command)
     {
-        ArrayList<String> itemsInCurrentRoom = currentRoom.getArray();
-        ArrayList<String> buyableItems = new ArrayList<String>();
-        
-        buyableItems.addAll(supermarked.getArray());
-        buyableItems.addAll(McDonalds.getArray());
-        buyableItems.addAll(loesMarket.getArray());
+        ArrayList<Item> itemsInCurrentRoom = currentRoom.getArray();
+      
              
         String item = command.getSecondWord();
         
-        if(itemsInCurrentRoom.contains(item))
+        for(int i = 0 ; i < itemsInCurrentRoom.size() ; i++)
         {
-            if(buyableItems.contains(item))
+            if(itemsInCurrentRoom.get(i).getName().equals(item))
             {
-                if(m1.balance >= 100)
+                Item currentItem = itemsInCurrentRoom.get(i);
+                if(currentItem.isBuyable())
                 {
-                    itemsInCurrentRoom.remove(item); 
-                    buyableItems.remove(item); 
-                    inventory.add(item);
-                    m1.Buy(100.00);
-                    System.out.println("You just bought: " + item + ". It cost you: 100.00" );
+                    itemsInCurrentRoom.remove(currentItem); 
+                    inventory.add(currentItem);
+                    m1.Buy(currentItem.getPrice());
+                    System.out.println("You just bought: " + item + ". It cost you: "+ currentItem.getPrice() );
                     getBalance(command);
-                
+                    currentItem.setBuyable(false);
+                    
                 }
                 else
                 {
-                    System.out.println("You do not have enough money to buy this item");
-                    getBalance(command);
+                    System.out.print("This item is not for sale");
                 }
-            }
-            else
-            {
-                System.out.println("That item can not be bought!");
-            }
-            
+            }      
         }
-        else
-        {
-            System.out.println("There is no such item in this room");
-            listRoomItems();
-        }       
-        
-    }
+    } 
     
     private void checkInventory(Command command)
     { 
@@ -357,7 +380,7 @@ public class Game
         System.out.println( "[");
         for(int j=0; j < inventory.size(); j++)
                     {
-                        System.out.println(  inventory.get(j) + "," );
+                        System.out.println(  inventory.get(j).getName() + "," );
                     }
         System.out.println( "]");
         }
@@ -399,14 +422,14 @@ public class Game
     private void listRoomItems()
     {
         
-            ArrayList<String> itemsInCurrentRoom = currentRoom.getArray();
+            ArrayList<Item> itemsInCurrentRoom = currentRoom.getArray();
             
             if(!itemsInCurrentRoom.isEmpty())
             {
                 System.out.println( "[");
                 for(int j=0; j < itemsInCurrentRoom.size(); j++)
                     {
-                        System.out.println( itemsInCurrentRoom.get(j) );
+                        System.out.println( itemsInCurrentRoom.get(j).getName() );
                     }
                 System.out.println( "]");  
             }
