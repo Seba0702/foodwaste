@@ -80,7 +80,7 @@ public class Game
         
         // Adding items to the specific rooms
         
-        Item trash, key, meat, milk, cake, rice, ryebread, cheeseburger, rice100g;
+        Item trash, key, meat, milk, cake, rice, ryebread, cheeseburger, rice100g, diamond, gold;
         
         milk = new Item("Milk", "This is milk!", 14, true);
         trash = new Item("Trash", "This is trash!", 0, false);
@@ -91,7 +91,8 @@ public class Game
         ryebread = new Item("Ryebread", "This is a loaf of ryebread", 25, true);
         cheeseburger = new Item("Cheeseburger", "This is a cheeseburger!", 10, true);
         rice100g = new Item("100g-Rice", "This is 100g of rice", 5, true);
-        
+        diamond = new Item("Diamond", "This is a diamond", 5000, true);
+        gold = new Item("Gold", "This is 1kg of gold", 5000, true);
         
         outsideItems.add(trash);
         outsideItems.add(key);
@@ -102,6 +103,8 @@ public class Game
         supermarkedItems.add(rice);
         supermarkedItems.add(ryebread);
         supermarkedItems.add(milk);
+        supermarkedItems.add(diamond);
+        supermarkedItems.add(gold);
         
         mcDonaldsItems.add(cheeseburger);
         
@@ -259,8 +262,7 @@ public class Game
     
     private void pickUp(Command command)
     {
-       boolean itemFound = false;
-       
+
        ArrayList<Item> itemsInCurrentRoom = currentRoom.getArray();
 
        String item = command.getSecondWord();      
@@ -280,23 +282,21 @@ public class Game
                 
                     System.out.println("You picked up some " + currentItem.getName());
                     currentRoom.fillArray(itemsInCurrentRoom);   
-                    itemFound = true;
                     break;
                 }
                 else
                 {
                     System.out.println("Don't try to steal!");
-                    itemFound = true;
-                }
-                
-           }       
+                    break;
+                }    
+           }
+           else
+           {
+                System.out.println("There is no such item here");
+                listRoomItems();
+                break;
+            }
         }  
-        if(!itemFound)
-        {
-            System.out.println("There is no such item here");
-            listRoomItems();
-        }
-     
     }
     
     private void stats() {
@@ -315,7 +315,6 @@ public class Game
     
     private void dropItem(Command command)
     {
-        boolean itemFound = false;
         
         ArrayList<Item> itemsInCurrentRoom = currentRoom.getArray();
         
@@ -331,22 +330,21 @@ public class Game
                 itemsInCurrentRoom.add(currentItem);
                 currentRoom.fillArray(itemsInCurrentRoom);
                 System.out.println("You dropped some " + item);
-                itemFound = true;
                 break;
-            }    
+            }
+           else
+           {
+               System.out.println("No such item was found in your inventory. Check your inventory with 'inventory'.");
+               break;
+           }
         }
-        
-        if (!itemFound)
-        {
-            System.out.println("No such item was found in your inventory. Check your inventory with 'inventory'.");
-        } 
     }
      
     private void buy(Command command)
     {
+     
         ArrayList<Item> itemsInCurrentRoom = currentRoom.getArray();
-      
-             
+        
         String item = command.getSecondWord();
         
         for(int i = 0 ; i < itemsInCurrentRoom.size() ; i++)
@@ -356,19 +354,31 @@ public class Game
                 Item currentItem = itemsInCurrentRoom.get(i);
                 if(currentItem.isBuyable())
                 {
-                    itemsInCurrentRoom.remove(currentItem); 
-                    inventory.add(currentItem);
-                    m1.Buy(currentItem.getPrice());
-                    System.out.println("You just bought: " + item + ". It cost you: "+ currentItem.getPrice() );
-                    getBalance(command);
-                    currentItem.setBuyable(false);
+                    if(m1.getBalance() >= currentItem.getPrice())
+                    {
                     
+                        itemsInCurrentRoom.remove(currentItem); 
+                        inventory.add(currentItem);
+                        m1.Buy(currentItem.getPrice());
+                        System.out.println("You just bought: " + item + ". It cost you: "+ currentItem.getPrice() );
+                        getBalance(command);
+                        currentItem.setBuyable(false);
+                    }
+                    else
+                    {
+                        System.out.println("You do not have enough money for this item. The item cost: " + currentItem.getPrice() + "kr. and you only have: "+ m1.getBalance()+"kr.");
+                    }          
                 }
                 else
                 {
-                    System.out.print("This item is not for sale");
+                    System.out.print("The item is not for sale");
                 }
-            }      
+            } 
+            else
+            {
+                System.out.println("There is no such item here!");
+                break;
+            }
         }
     } 
     
@@ -376,13 +386,14 @@ public class Game
     { 
         if(!inventory.isEmpty())
         {
-        System.out.println("These items are in your inventory: ");
-        System.out.println( "[");
-        for(int j=0; j < inventory.size(); j++)
-                    {
-                        System.out.println(  inventory.get(j).getName() + "," );
-                    }
-        System.out.println( "]");
+            System.out.println("These items are in your inventory: ");
+            System.out.println( "[");
+            for(int j=0; j < inventory.size(); j++)
+            {
+                System.out.println(  inventory.get(j).getName() + "," );
+            }
+            
+            System.out.println( "]");
         }
         else
         {
@@ -429,7 +440,15 @@ public class Game
                 System.out.println( "[");
                 for(int j=0; j < itemsInCurrentRoom.size(); j++)
                     {
-                        System.out.println( itemsInCurrentRoom.get(j).getName() );
+                        if(itemsInCurrentRoom.get(j).isBuyable() == true)
+                        {
+                            System.out.println( itemsInCurrentRoom.get(j).getName() + " | " + itemsInCurrentRoom.get(j).getPrice() + "kr." );
+                        }
+                        else
+                        {
+                            System.out.println( itemsInCurrentRoom.get(j).getName() );
+                        }
+                        
                     }
                 System.out.println( "]");  
             }
