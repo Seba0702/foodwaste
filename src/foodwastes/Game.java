@@ -337,49 +337,40 @@ public class Game
                System.out.println("No such item was found in your inventory. Check your inventory with 'inventory'.");
                break;
            }
-        }
+        }             
     }
      
+    
+    
     private void buy(Command command)
     {
-     
-        ArrayList<Item> itemsInCurrentRoom = currentRoom.getArray();
-        
         String item = command.getSecondWord();
         
-        for(int i = 0 ; i < itemsInCurrentRoom.size() ; i++)
-        {
-            if(itemsInCurrentRoom.get(i).getName().equals(item))
-            {
-                Item currentItem = itemsInCurrentRoom.get(i);
-                if(currentItem.isBuyable())
-                {
-                    if(m1.getBalance() >= currentItem.getPrice())
-                    {
-                    
-                        itemsInCurrentRoom.remove(currentItem); 
-                        inventory.add(currentItem);
-                        m1.Buy(currentItem.getPrice());
-                        System.out.println("You just bought: " + item + ". It cost you: "+ currentItem.getPrice() );
-                        getBalance(command);
-                        currentItem.setBuyable(false);
-                    }
-                    else
-                    {
-                        System.out.println("You do not have enough money for this item. The item cost: " + currentItem.getPrice() + "kr. and you only have: "+ m1.getBalance()+"kr.");
-                    }          
-                }
-                else
-                {
-                    System.out.print("The item is not for sale");
-                }
-            } 
-            else
-            {
-                System.out.println("There is no such item here!");
-                break;
+        for (Item var : currentRoom.items) {
+            if (!var.getName().equals(item)) continue;
+            
+            if (!var.isBuyable()) {
+                System.out.print("The item is not for sale");
+                return;
             }
+            
+            if (m1.getBalance() < var.getPrice()) {
+                System.out.println("You do not have enough money for this item. The item cost: " + var.getPrice()
+                        + "kr. and you only have: "+ m1.getBalance()+"kr.");
+                return;
+            }
+            
+            currentRoom.items.remove(var);
+            m1.Buy(var.getPrice());
+            inventory.add(var);
+            var.setBuyable(false); 
+            System.out.println("You just bought: " + item + ". It cost you: "+ var.getPrice() );
+            getBalance(command);
+            
+            return;
         }
+   
+        System.out.println("This item could not be found");
     } 
     
     private void checkInventory(Command command)
@@ -489,7 +480,7 @@ public class Game
     monetarySystem m1 = new monetarySystem();
     
     public void getBalance(Command command) {
-        System.out.println("You have " + m1.balance + " kr. left in your account");
+        System.out.println("You have " + m1.getBalance() + " kr. left in your account");
     }
 }
 
