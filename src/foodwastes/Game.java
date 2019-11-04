@@ -262,7 +262,8 @@ public class Game
     
     private void pickUp(Command command)
     {
-
+       boolean isFound = false; 
+        
        ArrayList<Item> itemsInCurrentRoom = currentRoom.getArray();
 
        String item = command.getSecondWord();      
@@ -282,21 +283,22 @@ public class Game
                 
                     System.out.println("You picked up some " + currentItem.getName());
                     currentRoom.fillArray(itemsInCurrentRoom);   
+                    isFound = true;
                     break;
                 }
                 else
                 {
                     System.out.println("Don't try to steal!");
+                    isFound = true;
                     break;
                 }    
-           }
-           else
-           {
-                System.out.println("There is no such item here");
-                listRoomItems();
-                break;
-            }
+           } 
         }  
+        if (!isFound) {
+        System.out.println("There is no such item here");
+        listRoomItems();
+        }
+               
     }
     
     private void stats() {
