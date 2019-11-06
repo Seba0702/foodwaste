@@ -12,7 +12,7 @@ public class Game
     private Room currentRoom;
     private Point currentPoints;   
     Characters p1 = new Characters();
-    
+    Point point = new Point();  
     
     ArrayList<Item> inventory = new ArrayList();
 
@@ -82,17 +82,17 @@ public class Game
         
         Item trash, key, meat, milk, cake, rice, ryebread, cheeseburger, rice100g, diamond, gold;
         
-        milk = new Item("Milk", "This is milk!", 14, true);
-        trash = new Item("Trash", "This is trash!", 0, false);
-        key = new Item("Key", "This is a key!", 0, false);
-        meat = new Item("Meat", "This is meat!", 35, true);
-        cake = new Item("Cake", "This is a whole cake!", 60, true);
-        rice = new Item("Rice", "This is 500g of white rice!", 25, true);
-        ryebread = new Item("Ryebread", "This is a loaf of ryebread", 25, true);
-        cheeseburger = new Item("Cheeseburger", "This is a cheeseburger!", 10, true);
-        rice100g = new Item("100g-Rice", "This is 100g of rice", 5, true);
-        diamond = new Item("Diamond", "This is a diamond", 5000, true);
-        gold = new Item("Gold", "This is 1kg of gold", 5000, true);
+        milk = new Item("Milk", "This is milk!", 14, true, true);
+        trash = new Item("Trash", "This is trash!", 0, false, false);
+        key = new Item("Key", "This is a key!", 0, false, false);
+        meat = new Item("Meat", "This is meat!", 35, true, true);
+        cake = new Item("Cake", "This is a whole cake!", 60, true, true);
+        rice = new Item("Rice", "This is 500g of white rice!", 25, true, true);
+        ryebread = new Item("Ryebread", "This is a loaf of ryebread", 25, true, true);
+        cheeseburger = new Item("Cheeseburger", "This is a cheeseburger!", 10, true, true);
+        rice100g = new Item("100g-Rice", "This is 100g of rice", 5, true, true);
+        diamond = new Item("Diamond", "This is a diamond", 5000, true, false);
+        gold = new Item("Gold", "This is 1kg of gold", 5000, true, false);
         
         outsideItems.add(trash);
         outsideItems.add(key);
@@ -251,6 +251,12 @@ public class Game
         else if (commandWord == CommandWord.BUY) {
             buy(command);
         }
+        else if (commandWord == CommandWord.THROWOUT) {
+            throwout(command);
+        }
+        else if (commandWord == CommandWord.DONATE) {
+            donate(command);
+        }
         return wantToQuit;
     }
 
@@ -260,45 +266,99 @@ public class Game
         parser.showCommands();
     }
     
+    private void throwout(Command command) {
+        
+        String item = command.getSecondWord();
+
+        for (Item var : inventory) {
+            
+            if (!var.getName().equals(item)) continue;
+
+            if (!currentRoom.getShortDescription().equals("in your kitchen")) 
+            {
+                System.out.println("You are not in your kitchen");
+                return;
+            }
+            
+            if (!var.isFood())
+            {
+                System.out.println("You just threw some " + var.getName() + " out");
+                return;    
+            }
+            
+            if (var.getSpoiledStatus())
+            {
+                point.setMinusPoint(5);
+                System.out.println("You just lost 10 points, because you threw something spoiled in the trash.");
+                inventory.remove(var);
+                return;
+            } 
+            else 
+            {
+                point.setMinusPoint(10);
+                System.out.println("You just lost 10 points, because you threw something ediable in the trash.");
+                inventory.remove(var);
+                return;
+            } 
+        }
+        System.out.println("There is no such item in your inventory");
+    }
+    
+    private void donate(Command command) {
+        
+        String item = command.getSecondWord();
+
+        for (Item var : inventory) 
+        {
+            
+            if (!var.getName().equals(item)) continue;
+            
+            if (!var.isFood())
+            {
+                System.out.println("This is not food!");
+                return;
+            }
+
+            if (var.getSpoiledStatus()) 
+            {
+                System.out.println("You can't donate spoiled food.. You should just throw the spoiled food in the trash.");
+                inventory.remove(var);
+                return;
+            } 
+            else 
+            {
+                point.setPlusPoint(10);
+                System.out.println("Thanks! You just donated some " + var.getName() + " to the foodbank. The food will now be used to feed people in need!");
+                inventory.remove(var);
+                return;
+            }
+        }
+        
+        System.out.println("There is no such item here");
+    }
+    
     private void pickUp(Command command)
     {
-       boolean isFound = false; 
-        
-       ArrayList<Item> itemsInCurrentRoom = currentRoom.getArray();
+        String item = command.getSecondWord();      
 
-       String item = command.getSecondWord();      
-       
-       for(int i = 0 ; i < itemsInCurrentRoom.size() ; i++)
-       {
-           if(itemsInCurrentRoom.get(i).getName().equals(item))
-           {
-                
-                Item currentItem = itemsInCurrentRoom.get(i);
-                
-                if(!currentItem.isBuyable())
-                {
-                    itemsInCurrentRoom.remove(currentItem); 
-                    
-                    inventory.add(currentItem);
-                
-                    System.out.println("You picked up some " + currentItem.getName());
-                    currentRoom.fillArray(itemsInCurrentRoom);   
-                    isFound = true;
-                    break;
-                }
-                else
-                {
-                    System.out.println("Don't try to steal!");
-                    isFound = true;
-                    break;
-                }    
-           } 
-        }  
-        if (!isFound) {
-        System.out.println("There is no such item here");
-        listRoomItems();
-        }
-               
+        for (Item var : currentRoom.items)
+        {
+            if(!var.getName().equals(item)) continue;
+            
+            if(!var.isBuyable())
+            {
+                inventory.add(var);
+                currentRoom.items.remove(var);
+                System.out.println("You picked up some "+ var.getName());
+                return;
+            }
+            else
+            {
+                System.out.println("Do not try to steal!");
+                return;
+            }
+        } 
+        System.out.println("There is no such item here");       
     }
     
     private void stats() {
@@ -311,35 +371,25 @@ public class Game
             System.out.println("You are full! Your hunger percentage is: " + p1.getHunger());
         } else {
             System.out.println("You are hungry! Get something to eat. Your hunger percentage is: " + p1.getHunger());
-        }
-            
+        }       
     }
     
     private void dropItem(Command command)
-    {
-        
-        ArrayList<Item> itemsInCurrentRoom = currentRoom.getArray();
-        
+    {     
         String item = command.getSecondWord();
         
-        for(int i = 0 ; i < inventory.size() ; i++)
+        for (Item var : inventory)
         {
-           if(inventory.get(i).getName().equals(item))
-           {
-                Item currentItem = inventory.get(i);
-                
-                inventory.remove(currentItem);
-                itemsInCurrentRoom.add(currentItem);
-                currentRoom.fillArray(itemsInCurrentRoom);
-                System.out.println("You dropped some " + item);
-                break;
-            }
-           else
-           {
-               System.out.println("No such item was found in your inventory. Check your inventory with 'inventory'.");
-               break;
-           }
-        }             
+        
+            if(!var.getName().equals(item)) continue;
+            
+            inventory.remove(var);
+            currentRoom.items.add(var);
+            System.out.println("You dropped some " + item);
+            return;
+        }
+        
+        System.out.println("No such item was found in your inventory. Check your inventory with 'inventory'."); 
     }
      
     
@@ -377,21 +427,33 @@ public class Game
     
     private void checkInventory(Command command)
     { 
-        if(!inventory.isEmpty())
+ 
+        if(inventory.isEmpty())
         {
-            System.out.println("These items are in your inventory: ");
-            System.out.println( "[");
-            for(int j=0; j < inventory.size(); j++)
+            System.out.println("Your inventory is empty");
+            return;
+        }
+       
+        System.out.println("These items are in your inventory: ");
+        System.out.println( "[");
+            
+        for (Item var : inventory)
+        {
+            if (var.isFood() & var.getSpoiledStatus()) 
             {
-                System.out.println(  inventory.get(j).getName() + "," );
+                System.out.println(var.getName() + " | Spoiled");
+                continue;
+            } 
+            else if (var.isFood() & !var.getSpoiledStatus())
+            {
+                System.out.println(var.getName() + " | Not Spoiled");
+                continue;
             }
             
-            System.out.println( "]");
+            System.out.println(var.getName());        
         }
-        else
-        {
-            System.out.println("Your inventory is emty");
-        }
+        
+        System.out.println( "]"); 
     }
     
     private void goRoom(Command command) 
@@ -423,32 +485,39 @@ public class Game
         
     }
     
-    private void listRoomItems()
-    {
+    private void listRoomItems() {
+
+        if (currentRoom.items.isEmpty())
+        {
+            System.out.println("This room has no items");
+            return;
+        }
         
-            ArrayList<Item> itemsInCurrentRoom = currentRoom.getArray();
+        System.out.println("[");
+
+        for (Item var : currentRoom.items) 
+        {
+            if (var.isBuyable()) 
+            {
+                System.out.println(var.getName() + " | " + var.getPrice() + "kr.");
+                continue;
+            }
+
+            if (var.isFood() & var.getSpoiledStatus()) 
+            {
+                System.out.println(var.getName() + " | Spoiled");
+                continue;
+            } 
+            else if (var.isFood() & !var.getSpoiledStatus())
+            {
+                System.out.println(var.getName() + " | Not Spoiled");
+                continue;
+            }
             
-            if(!itemsInCurrentRoom.isEmpty())
-            {
-                System.out.println( "[");
-                for(int j=0; j < itemsInCurrentRoom.size(); j++)
-                    {
-                        if(itemsInCurrentRoom.get(j).isBuyable() == true)
-                        {
-                            System.out.println( itemsInCurrentRoom.get(j).getName() + " | " + itemsInCurrentRoom.get(j).getPrice() + "kr." );
-                        }
-                        else
-                        {
-                            System.out.println( itemsInCurrentRoom.get(j).getName() );
-                        }
-                        
-                    }
-                System.out.println( "]");  
-            }
-            else
-            {
-                System.out.println("There are no items in this room");
-            }
+            System.out.println(var.getName());
+        }
+
+        System.out.println("]");
     }
 
     private boolean quit(Command command) 
@@ -462,18 +531,20 @@ public class Game
         }
     }
 
-    private void sleep(){
-     if("in the bedroom".equals(currentRoom.getShortDescription()))
-     {
-      time.swichDayWithBed();
-         System.out.println(currentRoom.getLongDescription()+" "+"you had sleep"+"The time is"+"now"+" "+time.getDateOfDays()+" "+"the clock is"+" "+time.getDateOfHours());   
-         time.checkForDaysQuitGame();
-     }  else if(("in the bedroom"!=(currentRoom.getShortDescription()))) {
-        time.swichDayOutsideOfBedroom();
-        System.out.println(currentRoom.getLongDescription()+" "+"you had sleep"+"The time is"+"now"+" "+time.getDateOfDays()+" "+"the clock is"+" "+time.getDateOfHours());
-        System.out.println("It is better to sleep inside your bedroom");
-        time.checkForDaysQuitGame();
-     }
+    private void sleep() {
+        if ("in the bedroom".equals(currentRoom.getShortDescription()))
+        {
+            time.swichDayWithBed();
+            System.out.println(currentRoom.getLongDescription() + " " + "you had sleep" + "The time is" + "now" + " " + time.getDateOfDays() + " " + "the clock is" + " " + time.getDateOfHours());
+            time.checkForDaysQuitGame();
+        } 
+        else if (("in the bedroom" != (currentRoom.getShortDescription()))) 
+        {
+            time.swichDayOutsideOfBedroom();
+            System.out.println(currentRoom.getLongDescription() + " " + "you had sleep" + "The time is" + "now" + " " + time.getDateOfDays() + " " + "the clock is" + " " + time.getDateOfHours());
+            System.out.println("It is better to sleep inside your bedroom");
+            time.checkForDaysQuitGame();
+        }
                  
          
         

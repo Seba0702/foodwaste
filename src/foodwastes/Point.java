@@ -18,6 +18,16 @@ public class Point {
         this.index += 1;
 
     }
+    
+    public void setMinusPoint(double point)
+    {
+        this.index = index - point;
+    }
+    
+    public void setPlusPoint(double point)
+    {
+        this.index = index + point;
+    }
 
     public void setPointMinusOne(double index) {
 
