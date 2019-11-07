@@ -469,13 +469,43 @@ public class Game
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
-        } else if(time.getDateOfHours()==0){
+        } else 
+        if(time.getDateOfHours()==0){
             
+            for (Item p : inventory) {
+                p.SetRottenHours();
+                if(p.getRottenHours()==5)
+                { 
+                p.setRottenHoursToMinusOne();
+                }
+                else if(p.getRottenHours()==4)
+                {
+                p.setRottenHoursToMinusOne();
+                }
+                else if(p.getRottenHours()==3)
+                {
+                p.setRottenHoursToMinusOne();
+                }
+                else if(p.getRottenHours()==2)
+                {
+                p.setRottenHoursToMinusOne();
+                }
+                else if(p.getRottenHours()==1)
+                {
+                p.setRottenHoursToMinusOne();
+                
+                }
+                else if(p.getRottenHours()==0)
+                {
+                p.setSpoilStatus(true);
+                p.getSpoiledStatus();
+                }
+                
             currentRoom = nextRoom;
             System.out.println(currentRoom.getLongDescription()+"It is day: "+time.getDateOfDays()+" the clock is "+time.getDateOfHours());
             listRoomItems();
             p1.subHealth();
-            
+            }  
         } else {  
             
             time.swichHour();
@@ -488,6 +518,35 @@ public class Game
         
         if(0 >= p1.health) 
         {
+            for (Item p : inventory)
+            {
+                p.SetRottenHours();
+                if(p.getRottenHours()==5)
+                {
+                p.setRottenHoursToMinusOne();
+                }
+                else if(p.getRottenHours()==4){
+                p.setRottenHoursToMinusOne();
+                }
+                else if(p.getRottenHours()==3){
+                p.setRottenHoursToMinusOne();
+                }
+                else if(p.getRottenHours()==2){
+                p.setRottenHoursToMinusOne();
+                }
+                else if(p.getRottenHours()==1){
+                p.setRottenHoursToMinusOne();
+                p.setStatusOfRottenHours();
+                }else if(p.getRottenHours()==0){
+                p.getSpoiledStatus();
+                }    
+                
+                
+                
+                
+                
+                
+            }
             System.out.println("You died");
             System.out.println("HP: " + p1.getHealth());
             System.out.println("Hunger: " + p1.getHunger());
@@ -546,12 +605,24 @@ public class Game
     private void sleep() {
         if ("in the bedroom".equals(currentRoom.getShortDescription()))
         {
+            for(Item p : inventory)
+            {
+                p.setRottenHoursToZero();
+                p.setStatusOfRottenHours();
+                p.getSpoiledStatus();
+            }
             time.swichDayWithBed();
             System.out.println(currentRoom.getLongDescription() + " " + "you had sleep" + "The time is" + "now" + " " + time.getDateOfDays() + " " + "the clock is" + " " + time.getDateOfHours());
             time.checkForDaysQuitGame();
         } 
         else if (("in the bedroom" != (currentRoom.getShortDescription()))) 
         {
+            for(Item p : inventory)
+            {
+                p.setRottenHoursToZero();
+                p.setStatusOfRottenHours();
+                p.getSpoiledStatus();
+            }
             time.swichDayOutsideOfBedroom();
             System.out.println(currentRoom.getLongDescription() + " " + "you had sleep" + "The time is" + "now" + " " + time.getDateOfDays() + " " + "the clock is" + " " + time.getDateOfHours());
             System.out.println("It is better to sleep inside your bedroom");

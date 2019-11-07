@@ -12,9 +12,9 @@ public class Item {
     private boolean spoiled, buyable;
     private int price;
     private boolean isFood;
-    
+    private double rottenHours=5;
+    private boolean isRottenFood;
 
-    
     public Item(String name, String description, int price, boolean buyable, boolean isFood)
     {
     
@@ -23,6 +23,7 @@ public class Item {
        this.price = price;
        this.buyable = buyable;
        this.isFood = isFood;
+       this.spoiled = spoiled;
     }
     
     public boolean isBuyable()
@@ -65,5 +66,50 @@ public class Item {
         return price;
     }
     
-   
+    public void SetRottenHours()
+    {
+    if(this.isFood==true){
+     
+    }
+    else{
+       this.rottenHours=Double.POSITIVE_INFINITY;
+    }   
+    }
+    public double getRottenHours()
+    {
+    return this.rottenHours;  
+    }        
+
+    public void setRottenHoursToMinusOne()
+    {
+      this.rottenHours-=1;
+      
+    }
+    public void setStatusOfRottenHours()
+    {
+    this.isRottenFood=true;
+    }
+    
+    public boolean getIsRottenFood()
+    {
+    return this.isRottenFood;
+    }
+    public void setRottenHoursToZero()
+    {
+    if(this.rottenHours==Double.POSITIVE_INFINITY)
+    {
+        
+    }
+     else
+    {
+     this.rottenHours=0;   
+    }
+    }
+    
+    @Override
+    public String toString()
+    {
+    return name+" "+ "has "+this.rottenHours+" "+"hours"+" "+ "left"+" and the food is rotten if value is true"+" "+"("+this.isRottenFood+")";
+    }     
 }
+

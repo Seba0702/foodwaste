@@ -15,6 +15,8 @@ private int hours=0;
 
 private int days=0;
 
+private int rottenHours=0;
+
 
 
     Time()
@@ -84,14 +86,7 @@ return hours;
 
     
 } 
-/*if(time.getDateOfMinutes()==50){
-            time.swichHour();
-            }
-        
-            else {
-            time.swicTenMinutes();
-            }    
-*/
+
 
  
 

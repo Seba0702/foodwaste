@@ -23,7 +23,7 @@ public class Characters {
     public Characters() {
         health = 100;
         hunger = 40;
-        damage = 50;
+        damage = 0;
         minHealth = 0;
     }
     
