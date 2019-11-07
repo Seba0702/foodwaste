@@ -1,19 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package foodwastes;
 
-import java.util.Timer;
-import java.util.TimerTask;
 
-
-
-/**
- *
- * @author Cavra
- */
 public class Characters {
     public int health;
     public int hunger;
@@ -23,7 +10,7 @@ public class Characters {
     public Characters() {
         health = 100;
         hunger = 40;
-        damage = 50;
+        damage = 5;
         minHealth = 0;
     }
     

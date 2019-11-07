@@ -1,7 +1,6 @@
 package foodwastes;
 
 import java.util.Scanner;
-import java.util.Arrays;
 import java.util.ArrayList;
 
 public class Game 
@@ -80,33 +79,30 @@ public class Game
         
         // Adding items to the specific rooms
         
-        Item trash, key, meat, milk, cake, rice, ryebread, cheeseburger, rice100g, diamond, gold;
+        Item meat, milk, cake, rice, ryebread, cheeseburger, rice100g, burger, chickennuggets;
         
-        milk = new Item("milk", "This is milk!", 14, true, true);
-        trash = new Item("trash", "This is trash!", 0, false, false);
-        key = new Item("key", "This is a key!", 0, false, false);
-        meat = new Item("meat", "This is meat!", 35, true, true);
-        cake = new Item("cake", "This is a whole cake!", 60, true, true);
-        rice = new Item("rice", "This is 500g of white rice!", 25, true, true);
-        ryebread = new Item("ryebread", "This is a loaf of ryebread", 25, true, true);
-        cheeseburger = new Item("cheeseburger", "This is a cheeseburger!", 10, true, true);
-        rice100g = new Item("100g-Rice", "This is 100g of rice", 5, true, true);
-        diamond = new Item("diamond", "This is a diamond", 5000, true, false);
-        gold = new Item("gold", "This is 1kg of gold", 5000, true, false);
-        
-        outsideItems.add(trash);
-        outsideItems.add(key);
-        
+        milk = new Item("milk", "This is milk!", 14, true, true, 20);
+        meat = new Item("meat", "This is meat!", 35, true, true, 30);
+        cake = new Item("cake", "This is a whole cake!", 60, true, true, 50);
+        rice = new Item("rice", "This is 500g of white rice!", 25, true, true, 50);
+        ryebread = new Item("ryebread", "This is a loaf of ryebread", 25, true, true, 25);
+        cheeseburger = new Item("cheeseburger", "This is a cheeseburger!", 10, true, true, 30);
+        rice100g = new Item("100g-Rice", "This is 100g of rice", 5, true, true, 10 );
+        burger = new Item("burger", "This is a burger!", 10, true, true, 28);
+        chickennuggets = new Item("chickennuggets", "These are chicken nuggets", 25, true, true, 40);
+
+       
         supermarkedItems.add(meat);
         supermarkedItems.add(milk);
         supermarkedItems.add(cake);
         supermarkedItems.add(rice);
         supermarkedItems.add(ryebread);
         supermarkedItems.add(milk);
-        supermarkedItems.add(diamond);
-        supermarkedItems.add(gold);
+
         
         mcDonaldsItems.add(cheeseburger);
+        mcDonaldsItems.add(burger);
+        mcDonaldsItems.add(chickennuggets);
         
         loesMarketItems.add(rice100g);
         
@@ -136,20 +132,7 @@ public class Game
       point.getPoint();
       point.setPointPlusOne();
     }
-    public void reminder() {
-        
-        if(50 >= p1.hunger ) {
-            while(50 >= p1.hunger) {
-                System.out.println("You are hungry!");
-                p1.subHealth();
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException ex) {
-                    //do nothing
-                }
-            }
-        }
-    }    
+   
     public void play() 
     {            
         printWelcome();
@@ -166,7 +149,7 @@ public class Game
     private void printWelcome()
     {
         Scanner scan = new Scanner(System.in);
-        /*
+        
         System.out.println();
         System.out.println("Welcome to Food Waste!");
         System.out.println("What is your name?");
@@ -216,13 +199,12 @@ public class Game
         
         System.out.println("Ready to start?");
         String commandYesToBegin = scan.next();
-*/
+
         time.setDate(1, 16);
         System.out.println();
         System.out.println(currentRoom.getLongDescription());
         System.out.println("It is day: "+time.getDateOfDays()+" the clock is "+time.getDateOfHours());
         listRoomItems();
-        reminder();
     }
 
     private boolean processCommand(Command command) 
@@ -272,6 +254,9 @@ public class Game
         else if (commandWord == CommandWord.DONATE) {
             donate(command);
         }
+        else if (commandWord == CommandWord.EAT) {
+            eat(command);
+        }
         return wantToQuit;
     }
 
@@ -281,6 +266,25 @@ public class Game
         parser.showCommands();
     }
     
+    private void eat(Command command) 
+    {
+        String item = command.getSecondWord();
+        
+        for (Item var : inventory)
+        {
+            if (var.getName().equals(item) && var.isFood())
+            {
+                inventory.remove(var);
+                p1.hunger += var.getNutrtion();
+                System.out.println("You just ate a " + var.getName() + " and refilled your hungry by " + var.getNutrtion());
+                System.out.println("Your hunger is now at: " + p1.getHunger());
+                return;
+            }
+        }
+        
+        System.out.print("This item is not in your inventory.");
+    }
+   
     private void throwout(Command command) {
         
         String item = command.getSecondWord();
@@ -461,7 +465,7 @@ public class Game
             } 
             else if (var.isFood() & !var.getSpoiledStatus())
             {
-                System.out.println(var.getName() + " | Not Spoiled");
+                System.out.println(var.getName() + " | " + var.getHoursToRot() + " Hours left to spoil.");
                 continue;
             }
             
@@ -484,92 +488,67 @@ public class Game
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
-        } else 
-        if(time.getDateOfHours()==0){
-            
+            return;
+        }
+        
+        if(time.getDateOfHours()==0)
+        {
+            System.out.print("You should use 'sleep' as you are too tired to go anywhere.");   
+            return;
+        } 
+        else 
+        {   
             for (Item p : inventory) {
-                p.SetRottenHours();
-                if(p.getRottenHours()==5)
-                { 
-                p.setRottenHoursToMinusOne();
-                }
-                else if(p.getRottenHours()==4)
-                {
-                p.setRottenHoursToMinusOne();
-                }
-                else if(p.getRottenHours()==3)
-                {
-                p.setRottenHoursToMinusOne();
-                }
-                else if(p.getRottenHours()==2)
-                {
-                p.setRottenHoursToMinusOne();
-                }
-                else if(p.getRottenHours()==1)
-                {
-                p.setRottenHoursToMinusOne();
                 
-                }
-                else if(p.getRottenHours()==0)
-                {
-                p.setSpoilStatus(true);
-                p.getSpoiledStatus();
-                }
+               if (!p.isFood()) continue;
+               
                 
-            currentRoom = nextRoom;
-            System.out.println(currentRoom.getLongDescription()+"It is day: "+time.getDateOfDays()+" the clock is "+time.getDateOfHours());
-            listRoomItems();
-            p1.subHealth();
+                if (p.getHoursToRot() == 0)
+                {
+                    p.setSpoilStatus(true);
+                } 
+                else
+                {
+                    p.setRotHoursMinus(1.00);
+                } 
+            }
             
-            }  
-        } else {  
+            for (Item p : currentRoom.items) {
+                
+               if (!p.isFood()) continue;
+               
+                
+                if (p.getHoursToRot() == 0)
+                {
+                    p.setSpoilStatus(true);
+                } 
+                else
+                {
+                    p.setRotHoursMinus(1.00);
+                } 
+            }
             
             time.swichHour();
             currentRoom = nextRoom;
-            System.out.println(currentRoom.getLongDescription()+"It is day: "+time.getDateOfDays()+" the clock is "+time.getDateOfHours());
+            System.out.println(currentRoom.getLongDescription()+" It is day: "+time.getDateOfDays()+" the clock is "+time.getDateOfHours());
             listRoomItems();
-            p1.subHealth();
+            p1.subHunger();  
             
+            if(p1.getHunger() <= 30)
+            {
+                System.out.println("You are now starting to take damage because you are very hungry");
+                p1.subHealth();
+            }
         }
         
         if(0 >= p1.health) 
-        {
-            for (Item p : inventory)
-            {
-                p.SetRottenHours();
-                if(p.getRottenHours()==5)
-                {
-                p.setRottenHoursToMinusOne();
-                }
-                else if(p.getRottenHours()==4){
-                p.setRottenHoursToMinusOne();
-                }
-                else if(p.getRottenHours()==3){
-                p.setRottenHoursToMinusOne();
-                }
-                else if(p.getRottenHours()==2){
-                p.setRottenHoursToMinusOne();
-                }
-                else if(p.getRottenHours()==1){
-                p.setRottenHoursToMinusOne();
-                p.setStatusOfRottenHours();
-                }else if(p.getRottenHours()==0){
-                p.getSpoiledStatus();
-                }    
-                
-                
-                
-                
-                
-                
-            }
+        {          
             System.out.println("You died");
             System.out.println("HP: " + p1.getHealth());
             System.out.println("Hunger: " + p1.getHunger());
-            System.exit(0);
-            
-        }
-        
+            System.out.println("Score: " + point.getPoint());
+            System.exit(0);            
+        }    
     }
     
     private void listRoomItems() {
@@ -597,7 +576,7 @@ public class Game
             } 
             else if (var.isFood() & !var.getSpoiledStatus())
             {
-                System.out.println(var.getName() + " | Not Spoiled");
+                System.out.println(var.getName() + " | " + var.getHoursToRot() + " Hours left to spoil.");
                 continue;
             }
             
@@ -609,38 +588,28 @@ public class Game
 
     private boolean quit(Command command) 
     {
-        if(command.hasSecondWord()) {
+        if(command.hasSecondWord()) 
+        {
             System.out.println("Quit what?");
             return false;
         }
-        else {
+        else 
+        {
             return true;
         }
     }
 
     private void sleep() {
         if ("in the bedroom".equals(currentRoom.getShortDescription()))
-        {
-            for(Item p : inventory)
-            {
-                p.setRottenHoursToZero();
-                p.setStatusOfRottenHours();
-                p.getSpoiledStatus();
-            }
+        {       
             time.swichDayWithBed();
-            System.out.println(currentRoom.getLongDescription() + " " + "you had sleep" + "The time is" + "now" + " " + time.getDateOfDays() + " " + "the clock is" + " " + time.getDateOfHours());
+            System.out.println("You just slept in " + currentRoom.getShortDescription() + ". You had 6 hours of sleep. It is now day: " + time.getDateOfDays() + " and the clock is clock is " + time.getDateOfHours());
             time.checkForDaysQuitGame();
         } 
-        else if (("in the bedroom" != (currentRoom.getShortDescription()))) 
+        else  
         {
-            for(Item p : inventory)
-            {
-                p.setRottenHoursToZero();
-                p.setStatusOfRottenHours();
-                p.getSpoiledStatus();
-            }
             time.swichDayOutsideOfBedroom();
-            System.out.println(currentRoom.getLongDescription() + " " + "you had sleep" + "The time is" + "now" + " " + time.getDateOfDays() + " " + "the clock is" + " " + time.getDateOfHours());
+            System.out.println("You just slept in " + currentRoom.getShortDescription() + ". You had 16 hours of sleep. It is now day: " + time.getDateOfDays() + " and the clock is clock is " + time.getDateOfHours());
             System.out.println("It is better to sleep inside your bedroom");
             time.checkForDaysQuitGame();
         }

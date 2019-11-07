@@ -1,21 +1,16 @@
 package foodwastes;
 
-import java.util.Set;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.ArrayList;
 
 public class Item {
     
-    private String name;
-    private String description;
+    private final String name, description;
     private boolean spoiled, buyable;
-    private int price;
-    private boolean isFood;
-    private double rottenHours=5;
-    private boolean isRottenFood;
+    private final int price, nutrition;
+    private final boolean isFood;
+ 
+    private double hoursToRot = 15;
 
-    public Item(String name, String description, int price, boolean buyable, boolean isFood)
+    public Item(String name, String description, int price, boolean buyable, boolean isFood, int nutrition)
     {
     
        this.description = description;
@@ -23,7 +18,8 @@ public class Item {
        this.price = price;
        this.buyable = buyable;
        this.isFood = isFood;
-       this.spoiled = spoiled;
+       this.nutrition = nutrition;
+       
     }
     
     public boolean isBuyable()
@@ -65,51 +61,20 @@ public class Item {
     {
         return price;
     }
-    
-    public void SetRottenHours()
-    {
-    if(this.isFood==true){
-     
-    }
-    else{
-       this.rottenHours=Double.POSITIVE_INFINITY;
-    }   
-    }
-    public double getRottenHours()
-    {
-    return this.rottenHours;  
-    }        
 
-    public void setRottenHoursToMinusOne()
+    public double getHoursToRot() 
     {
-      this.rottenHours-=1;
-      
+        return hoursToRot;
     }
-    public void setStatusOfRottenHours()
+
+    public void setRotHoursMinus(double value) 
     {
-    this.isRottenFood=true;
-    }
-    
-    public boolean getIsRottenFood()
-    {
-    return this.isRottenFood;
-    }
-    public void setRottenHoursToZero()
-    {
-    if(this.rottenHours==Double.POSITIVE_INFINITY)
-    {
-        
-    }
-     else
-    {
-     this.rottenHours=0;   
-    }
+        hoursToRot -= value;
     }
     
-    @Override
-    public String toString()
+    public int getNutrtion()
     {
-    return name+" "+ "has "+this.rottenHours+" "+"hours"+" "+ "left"+" and the food is rotten if value is true"+" "+"("+this.isRottenFood+")";
-    }     
+        return nutrition;
+    }
+    
 }
-
