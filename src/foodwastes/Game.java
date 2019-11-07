@@ -82,17 +82,17 @@ public class Game
         
         Item trash, key, meat, milk, cake, rice, ryebread, cheeseburger, rice100g, diamond, gold;
         
-        milk = new Item("Milk", "This is milk!", 14, true, true);
-        trash = new Item("Trash", "This is trash!", 0, false, false);
-        key = new Item("Key", "This is a key!", 0, false, false);
-        meat = new Item("Meat", "This is meat!", 35, true, true);
-        cake = new Item("Cake", "This is a whole cake!", 60, true, true);
-        rice = new Item("Rice", "This is 500g of white rice!", 25, true, true);
-        ryebread = new Item("Ryebread", "This is a loaf of ryebread", 25, true, true);
-        cheeseburger = new Item("Cheeseburger", "This is a cheeseburger!", 10, true, true);
+        milk = new Item("milk", "This is milk!", 14, true, true);
+        trash = new Item("trash", "This is trash!", 0, false, false);
+        key = new Item("key", "This is a key!", 0, false, false);
+        meat = new Item("meat", "This is meat!", 35, true, true);
+        cake = new Item("cake", "This is a whole cake!", 60, true, true);
+        rice = new Item("rice", "This is 500g of white rice!", 25, true, true);
+        ryebread = new Item("ryebread", "This is a loaf of ryebread", 25, true, true);
+        cheeseburger = new Item("cheeseburger", "This is a cheeseburger!", 10, true, true);
         rice100g = new Item("100g-Rice", "This is 100g of rice", 5, true, true);
-        diamond = new Item("Diamond", "This is a diamond", 5000, true, false);
-        gold = new Item("Gold", "This is 1kg of gold", 5000, true, false);
+        diamond = new Item("diamond", "This is a diamond", 5000, true, false);
+        gold = new Item("gold", "This is 1kg of gold", 5000, true, false);
         
         outsideItems.add(trash);
         outsideItems.add(key);
