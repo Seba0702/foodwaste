@@ -135,6 +135,20 @@ public class Game
       
       point.getPoint();
       point.setPointPlusOne();
+    }
+    public void reminder() {
+        
+        if(50 >= p1.hunger ) {
+            while(50 >= p1.hunger) {
+                System.out.println("You are hungry!");
+                p1.subHealth();
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException ex) {
+                    //do nothing
+                }
+            }
+        }
     }    
     public void play() 
     {            
@@ -208,6 +222,7 @@ public class Game
         System.out.println(currentRoom.getLongDescription());
         System.out.println("It is day: "+time.getDateOfDays()+" the clock is "+time.getDateOfHours());
         listRoomItems();
+        reminder();
     }
 
     private boolean processCommand(Command command) 
@@ -505,6 +520,7 @@ public class Game
             System.out.println(currentRoom.getLongDescription()+"It is day: "+time.getDateOfDays()+" the clock is "+time.getDateOfHours());
             listRoomItems();
             p1.subHealth();
+            
             }  
         } else {  
             
