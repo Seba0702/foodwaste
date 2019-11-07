@@ -474,6 +474,7 @@ public class Game
             currentRoom = nextRoom;
             System.out.println(currentRoom.getLongDescription()+"It is day: "+time.getDateOfDays()+" the clock is "+time.getDateOfHours());
             listRoomItems();
+            p1.subHealth();
             
         } else {  
             
@@ -481,7 +482,18 @@ public class Game
             currentRoom = nextRoom;
             System.out.println(currentRoom.getLongDescription()+"It is day: "+time.getDateOfDays()+" the clock is "+time.getDateOfHours());
             listRoomItems();
-                    }
+            p1.subHealth();
+            
+        }
+        
+        if(0 >= p1.health) 
+        {
+            System.out.println("You died");
+            System.out.println("HP: " + p1.getHealth());
+            System.out.println("Hunger: " + p1.getHunger());
+            System.exit(0);
+            
+        }
         
     }
     

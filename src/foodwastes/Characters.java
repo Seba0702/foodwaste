@@ -5,6 +5,11 @@
  */
 package foodwastes;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
+
+
 /**
  *
  * @author Cavra
@@ -12,47 +17,43 @@ package foodwastes;
 public class Characters {
     public int health;
     public int hunger;
-    public int loseHealth;
+    public int damage;
+    public int minHealth;
     
     public Characters() {
         health = 100;
-        hunger = 100;
-        loseHealth = 10;
+        hunger = 40;
+        damage = 50;
+        minHealth = 0;
+    }
+    
+    public boolean alive() {
+        return health > 0;
+    }
+    
+    public boolean dead() {
+        if(health <= 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
     
     public int getHealth() {
         return health;
     }
-//new    
+    
     public int getHunger() {
         return hunger;
     }
     
-    public void whenHungry() {
-        while(hunger < 50) {
-            System.out.println("You are hungry! Make sure to get something to eat");
-            
-        }
-    }
-    
     public void subHealth() {
-        health = health - loseHealth;
-        while(1 > health) {
-            System.out.println("You died.");
-            break;
-        }
+        health = health - damage;
         
     }
 
     public void subHunger() {
-        hunger = hunger - loseHealth;
+        hunger = hunger - damage;
     }
     
-/*    public void dead() {
-        while(0 > health) {
-            System.out.println("\tYou died.");
-            break;
-            
-        }
-    }*/
 }
