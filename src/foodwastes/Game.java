@@ -274,8 +274,8 @@ public class Game
             if (var.getName().equals(item) && var.isFood())
             {
                 inventory.remove(var);
-                p1.hunger += var.getNutrtion();
-                System.out.println("You just ate a " + var.getName() + " and refilled your hungry by " + var.getNutrtion());
+                p1.hunger += var.getNutrition();
+                System.out.println("You just ate a " + var.getName() + " and refilled your hungry by " + var.getNutrition());
                 System.out.println("Your hunger is now at: " + p1.getHunger());
                 return;
             }
