@@ -271,13 +271,26 @@ public class Game
         
         for (Item var : inventory)
         {
+            
+            
             if (var.getName().equals(item) && var.isFood())
             {
-                inventory.remove(var);
-                p1.hunger += var.getNutrition();
-                System.out.println("You just ate a " + var.getName() + " and refilled your hungry by " + var.getNutrition());
-                System.out.println("Your hunger is now at: " + p1.getHunger());
-                return;
+                if (var.getSpoiledStatus())
+                {
+                    System.out.println("You just ate spoiled food, and lost 10 hp");
+                    p1.setHealth(10);
+                    inventory.remove(var);
+                    return;
+                }
+                else
+                {
+                    inventory.remove(var);
+                    p1.hunger += var.getNutrition();
+                    System.out.println("You just ate a " + var.getName() + " and refilled your hunger by " + var.getNutrition());
+                    System.out.println("Your hunger is now at: " + p1.getHunger());
+                    return;
+                }
+                
             }
         }
         
@@ -602,13 +615,13 @@ public class Game
         if ("in the bedroom".equals(currentRoom.getShortDescription()))
         {       
             time.swichDayWithBed();
-            System.out.println("You just slept in " + currentRoom.getShortDescription() + ". You had 6 hours of sleep. It is now day: " + time.getDateOfDays() + " and the clock is clock is " + time.getDateOfHours());
+            System.out.println("You just slept " + currentRoom.getShortDescription() + ". You had 6 hours of sleep. It is now day: " + time.getDateOfDays() + " and the clock is " + time.getDateOfHours());
             time.checkForDaysQuitGame();
         } 
         else  
         {
             time.swichDayOutsideOfBedroom();
-            System.out.println("You just slept in " + currentRoom.getShortDescription() + ". You had 16 hours of sleep. It is now day: " + time.getDateOfDays() + " and the clock is clock is " + time.getDateOfHours());
+            System.out.println("You just slept " + currentRoom.getShortDescription() + ". You had 16 hours of sleep. It is now day: " + time.getDateOfDays() + " and the clock is " + time.getDateOfHours());
             System.out.println("It is better to sleep inside your bedroom");
             time.checkForDaysQuitGame();
         }
