@@ -43,4 +43,9 @@ public class Characters {
         hunger = hunger - damage;
     }
     
+    public void setHealth(int damage)
+    {
+        health = health - damage;
+    }
+    
 }
