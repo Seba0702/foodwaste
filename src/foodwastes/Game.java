@@ -97,7 +97,6 @@ public class Game
         supermarkedItems.add(cake);
         supermarkedItems.add(rice);
         supermarkedItems.add(ryebread);
-        supermarkedItems.add(milk);
 
         
         mcDonaldsItems.add(cheeseburger);
