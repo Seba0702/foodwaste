@@ -72,7 +72,7 @@ public class Item {
         hoursToRot -= value;
     }
     
-    public int getNutrtion()
+    public int getNutrition()
     {
         return nutrition;
     }
