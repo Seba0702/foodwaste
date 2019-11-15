@@ -3,18 +3,20 @@ package foodwastes;
 
 public class Quests {
     
-    private final Room roomOne, roomTwo;
-    private final String description;
+    private final Room destination;
+    private final String description, success;
     private final int day;
     private boolean finished = false;
+    private final Item object;
     
     
-    public Quests(int day, String description, Room roomOne, Room roomTwo )
+    public Quests(int day, String description, String success, Room destination, Item object )
     {
         this.day = day;
         this.description = description;
-        this.roomOne = roomOne;
-        this.roomTwo = roomTwo;         
+        this.destination = destination;    
+        this.object = object;
+        this.success = success;
     }
     
     public String getDescription()
@@ -27,14 +29,15 @@ public class Quests {
         return day;
     }
     
-    public Room getRoomOne()
+    public Room getDestination()
     {
-        return roomOne;
+        return destination;
     }
     
-    public Room getRoomTwo()
+    
+    public Item getObject()
     {
-        return roomTwo;
+        return object;
     }
     
     public boolean getFinished()
@@ -47,5 +50,9 @@ public class Quests {
         finished = status;
     }
     
+    public String getSuccess()
+    {
+        return success;
+    }
     
 }

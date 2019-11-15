@@ -13,7 +13,9 @@ public class Game
     Characters p1 = new Characters();
     Point point = new Point();  
     
+    
     ArrayList<Item> inventory = new ArrayList();
+    ArrayList<Quests> questList = new ArrayList();
 
     public Game() 
     {
@@ -21,7 +23,7 @@ public class Game
         createPoints();
         parser = new Parser();
     }
-
+    
 
     private void createRooms()
     {
@@ -79,7 +81,7 @@ public class Game
         
         // Adding items to the specific rooms
         
-        Item meat, milk, cake, rice, ryebread, cheeseburger, rice100g, burger, chickennuggets;
+        Item meat, milk, cake, rice, ryebread, cheeseburger, rice100g, burger, chickennuggets, key;
         
         milk = new Item("milk", "This is milk!", 14, true, true, 20);
         meat = new Item("meat", "This is meat!", 35, true, true, 30);
@@ -90,7 +92,10 @@ public class Game
         rice100g = new Item("100g-Rice", "This is 100g of rice", 5, true, true, 10 );
         burger = new Item("burger", "This is a burger!", 10, true, true, 28);
         chickennuggets = new Item("chickennuggets", "These are chicken nuggets", 25, true, true, 40);
+        
+        key = new Item("key", "This is your apartment key", 0, false, false, 0);
 
+        outsideItems.add(key);
        
         supermarkedItems.add(meat);
         supermarkedItems.add(milk);
@@ -113,8 +118,17 @@ public class Game
         bedroom.fillArray(bedroomItems);
         McDonalds.fillArray(mcDonaldsItems);
         loesMarket.fillArray(loesMarketItems);  
-  
+        
+        // Create Quests
+        
+        Quests questOne = new Quests( 2, "You need to pickup the key outside your apartmen, and unlock your hour door!", "You just unlocked your front door ", outside, key);
+       
+        questList.add(questOne);
+        
+       
     }
+    
+    
     
     private void createPoints()
     {
@@ -255,6 +269,9 @@ public class Game
         }
         else if (commandWord == CommandWord.EAT) {
             eat(command);
+        }
+        else if (commandWord == CommandWord.USE) {
+            useItem(command);
         }
         return wantToQuit;
     }
@@ -423,7 +440,41 @@ public class Game
         System.out.println("No such item was found in your inventory. Check your inventory with 'inventory'."); 
     }
      
-    
+    private void useItem(Command command)
+    {
+        String item = command.getSecondWord();
+        
+        for (Item var : inventory )
+        {
+            if (!var.getName().equals(item)) continue;
+            
+            for (Quests quest : questList)
+            {
+                if (!quest.getObject().equals(var))
+                {
+                    System.out.println("This item cannot be used");
+                    continue;
+                }
+                
+                if (quest.getDay() != time.getDateOfDays())
+                {
+                    System.out.println("This item cannot be used");
+                    continue;
+                }
+                
+                if (quest.getDestination() == currentRoom)
+                {
+                    System.out.println("You just used " + item);
+                    System.out.println(quest.getSuccess());
+                   // inventory.remove(var);
+                    
+                }
+                
+            }
+        }
+        
+        
+    }
     
     private void buy(Command command)
     {
@@ -512,7 +563,7 @@ public class Game
         {   
             for (Item p : inventory) {
                 
-               if (!p.isFood()) continue;
+                if (!p.isFood()) continue;
                
                 
                 if (p.getHoursToRot() == 0)
@@ -527,7 +578,7 @@ public class Game
             
             for (Item p : currentRoom.items) {
                 
-               if (!p.isFood()) continue;
+                if (!p.isFood()) continue;
                
                 
                 if (p.getHoursToRot() == 0)
@@ -540,11 +591,22 @@ public class Game
                 } 
             }
             
+            
+            
             time.swichHour();
             currentRoom = nextRoom;
             System.out.println(currentRoom.getLongDescription()+" It is day: "+time.getDateOfDays()+" the clock is "+time.getDateOfHours());
             listRoomItems();
             p1.subHunger();  
+            
+            for (Quests var : questList)
+            {
+                if (var.getDay() != time.getDateOfDays()) continue;
+                
+                System.out.println(var.getDescription());
+                
+            }
+            
             
             if(p1.getHunger() <= 30)
             {
