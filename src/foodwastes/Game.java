@@ -36,31 +36,31 @@ public class Game
         McDonalds = new Room("at McDonalds");
         loesMarket = new Room("you have entered Loes-Market");
         
-        outside.setExit("east", supermarked);
-        outside.setExit("south", apartment);
-        outside.setExit("west", McDonalds);
-        outside.setExit("north", loesMarket);
+        outside.setExit("fakta", supermarked);
+        outside.setExit("apartment", apartment);
+        outside.setExit("mcdonalds", McDonalds);
+        outside.setExit("naturmarket", loesMarket);
 
-        apartment.setExit("west", bedroom);
-        apartment.setExit("north", outside);
-        apartment.setExit("east", kitchen);
-        apartment.setExit("south", livingroom);
+        apartment.setExit("bedroom", bedroom);
+        apartment.setExit("outside", outside);
+        apartment.setExit("kitchen", kitchen);
+        apartment.setExit("livingroom", livingroom);
 
-        bedroom.setExit("west", apartment);
-        bedroom.setExit("south", livingroom);
+        bedroom.setExit("apartment", apartment);
+        bedroom.setExit("livingroom", livingroom);
         
-        livingroom.setExit("north", apartment);
-        livingroom.setExit("east", bedroom);
-        livingroom.setExit("west", kitchen);
+        livingroom.setExit("apartment", apartment);
+        livingroom.setExit("bedroom", bedroom);
+        livingroom.setExit("Kitchen", kitchen);
         
-        kitchen.setExit("west", apartment);
-        kitchen.setExit("south", livingroom);
+        kitchen.setExit("apartment", apartment);
+        kitchen.setExit("livingroom", livingroom);
         
-        supermarked.setExit("west", outside);
+        supermarked.setExit("outside", outside);
         
-        McDonalds.setExit("east", outside);
+        McDonalds.setExit("outside", outside);
 
-        loesMarket.setExit("south", outside);
+        loesMarket.setExit("outside", outside);
 
         currentRoom = outside;
         
