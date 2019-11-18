@@ -12,6 +12,7 @@ public class Game
     private Point currentPoints;   
     Characters p1 = new Characters();
     Point point = new Point();  
+    QuestMethods qMethods = new QuestMethods();
     
     
     ArrayList<Item> inventory = new ArrayList();
@@ -29,14 +30,14 @@ public class Game
     {
         Room outside, apartment, kitchen, livingroom, bedroom, supermarked, McDonalds, loesMarket;
       
-        outside = new Room("in the Streets of Copenhagen");
-        apartment = new Room("in the entrance of your apartment");
-        kitchen = new Room("in your kitchen");
-        livingroom = new Room("in your living room");
-        bedroom = new Room("in the bedroom");
-        supermarked = new Room("in Fakta");
-        McDonalds = new Room("at McDonalds");
-        loesMarket = new Room("you have entered Loes-Market");
+        outside = new Room("in the Streets of Copenhagen", true);
+        apartment = new Room("in the entrance of your apartment", false);
+        kitchen = new Room("in your kitchen", true);
+        livingroom = new Room("in your living room", true);
+        bedroom = new Room("in the bedroom", true);
+        supermarked = new Room("in Fakta", true);
+        McDonalds = new Room("at McDonalds", true);
+        loesMarket = new Room("you have entered Loes-Market", true);
         
         outside.setExit("fakta", supermarked);
         outside.setExit("apartment", apartment);
@@ -121,9 +122,11 @@ public class Game
         
         // Create Quests
         
-        Quests questOne = new Quests( 2, "You need to pickup the key outside your apartmen, and unlock your hour door!", "You just unlocked your front door ", outside, key);
+        Quests questOne = new Quests( 1, "You need to pickup the key outside your apartment, and unlock your house door!", "You just unlocked your front door ", outside, key);
        
         questList.add(questOne);
+        
+       
         
        
     }
@@ -161,6 +164,7 @@ public class Game
 
     private void printWelcome()
     {
+        /*
         Scanner scan = new Scanner(System.in);
         
         System.out.println();
@@ -212,7 +216,7 @@ public class Game
         
         System.out.println("Ready to start?");
         String commandYesToBegin = scan.next();
-
+        */
         time.setDate(1, 16);
         System.out.println();
         System.out.println(currentRoom.getLongDescription());
@@ -270,6 +274,9 @@ public class Game
         else if (commandWord == CommandWord.EAT) {
             eat(command);
         }
+        else if (commandWord == CommandWord.DRINK) {
+            eat(command);
+        }
         else if (commandWord == CommandWord.USE) {
             useItem(command);
         }
@@ -288,26 +295,45 @@ public class Game
         
         for (Item var : inventory)
         {
-            
+
             
             if (var.getName().equals(item) && var.isFood())
             {
+                
                 if (var.getSpoiledStatus())
                 {
+                    System.out.println("");
                     System.out.println("You just ate spoiled food, and lost 10 hp");
+                    System.out.println("");
                     p1.setHealth(10);
                     inventory.remove(var);
                     return;
                 }
                 else
                 {
-                    inventory.remove(var);
-                    p1.hunger += var.getNutrition();
-                    System.out.println("You just ate a " + var.getName() + " and refilled your hunger by " + var.getNutrition());
-                    System.out.println("Your hunger is now at: " + p1.getHunger());
-                    return;
-                }
-                
+                    if ((p1.hunger + var.getNutrition()) >= 100 )
+                    {
+                        inventory.remove(var);   
+                        System.out.println("");
+                        System.out.println("You just ate a " + var.getName() + " and refilled your hunger by " + var.getNutrition());
+                        System.out.println("You are now more than full, and wasted " + (p1.hunger + var.getNutrition() - 100) + " nutrition" );
+                        p1.hunger = 100;
+                        System.out.println("Your hunger is now at: " + p1.getHunger());
+                        System.out.println("");
+                        System.out.println("Over eating is one of the leading causes of food waste. Try to only eat as much food as you need.");
+                        
+                        return;
+                    }
+                    else
+                    {
+                        inventory.remove(var);
+                        p1.hunger += var.getNutrition();
+                        System.out.println("You just ate a " + var.getName() + " and refilled your hunger by " + var.getNutrition());
+                        System.out.println("Your hunger is now at: " + p1.getHunger());
+                        return;
+                    }
+                   
+                }    
             }
         }
         
@@ -444,36 +470,69 @@ public class Game
     {
         String item = command.getSecondWord();
         
+        if (inventory.isEmpty())
+        {
+            System.out.print("Your inventory is empty.");
+            return;
+        }
+        
         for (Item var : inventory )
         {
             if (!var.getName().equals(item)) continue;
-            
+          
             for (Quests quest : questList)
             {
-                if (!quest.getObject().equals(var))
+                if (!quest.getObject().equals(var) || quest.getDay() != time.getDateOfDays() )
                 {
                     System.out.println("This item cannot be used");
                     continue;
                 }
-                
-                if (quest.getDay() != time.getDateOfDays())
-                {
-                    System.out.println("This item cannot be used");
-                    continue;
-                }
-                
+    
                 if (quest.getDestination() == currentRoom)
                 {
-                    System.out.println("You just used " + item);
                     System.out.println(quest.getSuccess());
-                   // inventory.remove(var);
+                    inventory.remove(var);
+                    quest.setFinished(true);
+                   
                     
-                }
-                
-            }
-        }
-        
-        
+                    switch (quest.getDay())
+                    {
+                        case 1:
+                            unlockApartment();
+                            break;
+                        case 2:
+                            
+                            break;
+                        case 3:
+                            
+                            break;
+                        case 4:
+                            
+                            break;
+                        case 5:
+                            
+                            break;
+                        case 6:
+                            
+                            break;
+                        case 7:
+                            
+                            break;
+                        default:
+                            
+                            break;
+                    }
+                   
+                    return;                  
+                } 
+            }   
+        }     
+    }
+    
+    private void unlockApartment()
+    {
+        Room nextRoom = currentRoom.getExit("apartment");
+        nextRoom.setUnlocked(true);
     }
     
     private void buy(Command command)
@@ -544,13 +603,22 @@ public class Game
             System.out.println("Go where?");
             return;
         }
-
+        
+      
         String direction = command.getSecondWord();
-
+        
         Room nextRoom = currentRoom.getExit(direction);
+        
+        
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
+            return;
+        }
+        
+        if (nextRoom.isUnlocked() == false)
+        {
+            System.out.println("The door is locked. You need to find a way to open it");
             return;
         }
         
@@ -595,16 +663,18 @@ public class Game
             
             time.swichHour();
             currentRoom = nextRoom;
-            System.out.println(currentRoom.getLongDescription()+" It is day: "+time.getDateOfDays()+" the clock is "+time.getDateOfHours());
+            System.out.println("");
+            System.out.println(currentRoom.getLongDescription());
+            System.out.println("It is day: "+time.getDateOfDays()+" the clock is "+time.getDateOfHours());
             listRoomItems();
+            System.out.println("");
             p1.subHunger();  
             
             for (Quests var : questList)
             {
-                if (var.getDay() != time.getDateOfDays()) continue;
+                if (var.getDay() != time.getDateOfDays() || var.getFinished()) continue;
                 
-                System.out.println(var.getDescription());
-                
+                System.out.println("Quest: " + var.getDescription());    
             }
             
             
