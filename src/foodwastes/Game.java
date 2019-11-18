@@ -9,10 +9,9 @@ public class Game
     private String name;
     private Parser parser;
     private Room currentRoom;
-    private Point currentPoints;   
+    
     Characters p1 = new Characters();
     Point point = new Point();  
-    QuestMethods qMethods = new QuestMethods();
     
     
     ArrayList<Item> inventory = new ArrayList();
