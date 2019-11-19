@@ -124,10 +124,7 @@ public class Game
         Quests questOne = new Quests( 1, "You need to pickup the key outside your apartment, and unlock your house door!", "You just unlocked your front door ", outside, key);
        
         questList.add(questOne);
-        
-       
-        
-       
+         
     }
     
     
@@ -136,7 +133,6 @@ public class Game
     {
       Point point = new Point();
       
-      currentPoints = point;
       
     }
     public void givePoint()
