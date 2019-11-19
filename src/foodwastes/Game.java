@@ -675,7 +675,8 @@ public class Game
             {
                 if (var.getDay() != time.getDateOfDays() || var.getFinished()) continue;
                 
-                System.out.println("Quest: " + var.getDescription());    
+                ph.setNotifications(var.getDescription());
+                //System.out.println("Quest: " + var.getDescription());    
             }
             
             

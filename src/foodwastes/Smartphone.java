@@ -11,6 +11,7 @@ public class Smartphone {
     public boolean frontScreen;
     public boolean smsMode;
     public int notifications;
+    private String notification = "null";
     
     
     private static String SMS = "1";
@@ -19,6 +20,12 @@ public class Smartphone {
     
     public Smartphone() {
         
+    }
+    
+    public void setNotifications(String notification) 
+    {
+        this.notification = notification;
+        notifications = 1;
     }
     
 
@@ -36,9 +43,16 @@ public class Smartphone {
                 while(smsMode == true) {
                     System.out.println("You are in SMS mode");
                     System.out.println("You have " + notifications + " notifications");
+                   
+                    
+                    if ( notification != "null")
+                    {
+                      System.out.println("\t\n" + notification);
+                    }
+                    
                     System.out.println("\t\nWhat would you like to do?");
-//                    System.out.println("\t1. Go to ");
-                    System.out.println("\t3. Go back");
+
+                    System.out.println("\n\t3. Go back");
                     String smsinput = phoneinput.nextLine();
                     
                     if (smsinput.equals(BACK)) {
