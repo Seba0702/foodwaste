@@ -11,7 +11,9 @@ public class Game
     private Room currentRoom;
     
     Characters p1 = new Characters();
-    Point point = new Point();  
+    Point point = new Point();
+    Smartphone ph = new Smartphone();
+    monetarySystem m1 = new monetarySystem();
     
     
     ArrayList<Item> inventory = new ArrayList();
@@ -274,6 +276,9 @@ public class Game
         }
         else if (commandWord == CommandWord.USE) {
             useItem(command);
+        } 
+        else if (commandWord == CommandWord.PHONE) {
+            phone();
         }
         return wantToQuit;
     }
@@ -433,8 +438,9 @@ public class Game
     private void stats() {
 
         System.out.println("\tHello " + name);
-        //new
+        
         System.out.println("\tYour HP is: " + p1.getHealth());
+
             
         if (p1.getHunger() > 50) {
             System.out.println("You are full! Your hunger percentage is: " + p1.getHunger());
@@ -752,14 +758,14 @@ public class Game
             System.out.println("It is better to sleep inside your bedroom");
             time.checkForDaysQuitGame();
         }
-                 
-         
-        
+   
     }
-    
-    monetarySystem m1 = new monetarySystem();
-    
+    private void phone() {
+        ph.phoneMode = true;
+        ph.onPhone();
+    }
     public void getBalance(Command command) {
+        
         System.out.println("You have " + m1.getBalance() + " kr. left in your account");
     }
 }
