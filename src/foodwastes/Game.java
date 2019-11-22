@@ -83,7 +83,7 @@ public class Game
         
         // Adding items to the specific rooms
         
-        Item meat, milk, cake, rice, ryebread, cheeseburger, rice100g, burger, chickennuggets, key;
+        Item meat, milk, cake, rice, ryebread, cheeseburger, rice100g, burger, chickennuggets, key, letter;
         
         milk = new Item("milk", "This is milk!", 14, true, true, 20);
         meat = new Item("meat", "This is meat!", 35, true, true, 30);
@@ -96,8 +96,11 @@ public class Game
         chickennuggets = new Item("chickennuggets", "These are chicken nuggets", 25, true, true, 40);
         
         key = new Item("key", "This is your apartment key", 0, false, false, 0);
+        letter = new Item("letter", "This is a letter for your grandma", 0, false, false, 0);
 
         outsideItems.add(key);
+        
+        apartmentItems.add(letter);
        
         supermarkedItems.add(meat);
         supermarkedItems.add(milk);
@@ -123,9 +126,14 @@ public class Game
         
         // Create Quests
         
-        Quests questOne = new Quests( 1, "You need to pickup the key outside your apartment, and unlock your house door!", "You just unlocked your front door ", outside, key);
-       
+        Quests questOne = new Quests( 1, "You need to pickup the key outside your apartment, and unlock your house door!", "You just unlocked your front door.", outside, key);
+        Quests questTwo = new Quests(2, "You need to pickup the letter inside your apartment, it is a letter for your grandmar, you better bring it to post office in fakta.", "You just gave your letter to the post office.", supermarked, letter);
+        Quests questThree = new Quests(3, "", "", McDonalds, cake);
+        
+        
         questList.add(questOne);
+        questList.add(questTwo);
+        questList.add(questThree);
          
     }
     
@@ -483,10 +491,13 @@ public class Game
           
             for (Quests quest : questList)
             {
-                if (!quest.getObject().equals(var) || quest.getDay() != time.getDateOfDays() )
+                if (!quest.getObject().equals(var))  continue;
+             
+                
+                if (quest.getDay() != time.getDateOfDays())
                 {
-                    System.out.println("This item cannot be used");
-                    continue;
+                    System.out.print("You can't use that item yet.");
+                    return;
                 }
     
                 if (quest.getDestination() == currentRoom)
@@ -500,24 +511,25 @@ public class Game
                     {
                         case 1:
                             unlockApartment();
+                            point.setPlusPoint(100);
                             break;
                         case 2:
-                            
+                            point.setPlusPoint(200);
                             break;
                         case 3:
-                            
+                            point.setPlusPoint(300);
                             break;
                         case 4:
-                            
+                            point.setPlusPoint(400);
                             break;
                         case 5:
-                            
+                            point.setPlusPoint(500);
                             break;
                         case 6:
-                            
+                            point.setPlusPoint(600);
                             break;
                         case 7:
-                            
+                            point.setPlusPoint(700);
                             break;
                         default:
                             
