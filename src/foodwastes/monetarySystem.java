@@ -15,4 +15,9 @@ public class monetarySystem {
         return balance;
     }
     
+    public void setBalance(double amount)
+    {
+        balance += amount;
+    }
+    
 }

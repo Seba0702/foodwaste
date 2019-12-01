@@ -3,7 +3,7 @@ package foodwastes;
 public class Point {
 
     private double index = 0;
-
+    
     public Point() {
 
     }

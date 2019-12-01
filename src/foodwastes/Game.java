@@ -2,6 +2,7 @@ package foodwastes;
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Game 
 {
@@ -9,21 +10,35 @@ public class Game
     private String name;
     private Parser parser;
     private Room currentRoom;
+ 
     
     Characters p1 = new Characters();
     Point point = new Point();
     Smartphone ph = new Smartphone();
     monetarySystem m1 = new monetarySystem();
+    Random rand = new Random();
+    
     
     
     ArrayList<Item> inventory = new ArrayList();
     ArrayList<Quests> questList = new ArrayList();
+    ArrayList<Events> eventList = new ArrayList();
 
     public Game() 
     {
         createRooms();       
-        createPoints();
         parser = new Parser();
+    }
+    
+    private static Game sSoleInstance;
+    
+    public static Game getInstance()
+    {
+        if (sSoleInstance == null){ //if there is no instance available... create new one
+            sSoleInstance = new Game();
+        }
+
+        return sSoleInstance;
     }
     
 
@@ -128,31 +143,52 @@ public class Game
         
         Quests questOne = new Quests( 1, "You need to pickup the key outside your apartment, and unlock your house door!", "You just unlocked your front door.", outside, key);
         Quests questTwo = new Quests(2, "You need to pickup the letter inside your apartment, it is a letter for your grandmar, you better bring it to post office in fakta.", "You just gave your letter to the post office.", supermarked, letter);
-        Quests questThree = new Quests(3, "", "", McDonalds, cake);
+        Quests questThree = new Quests(3, "Instead of going to sleep, you went out with your friends. Doing the night you bought McDonalds and your food at home spoiled. ", "", McDonalds, cake);
         
         
         questList.add(questOne);
         questList.add(questTwo);
         questList.add(questThree);
-         
+        
+        // Create Events
+        
+        Events e1 = new Events("Instead of going to sleep, you went out with your friends. Doing the night you bought McDonalds and your food at home spoiled.", 200);
+        Events e2 = new Events("test", 150);
+        
+        eventList.add(e1);
+        eventList.add(e2);
     }
     
     
-    
-    private void createPoints()
+    public void events()
     {
-      Point point = new Point();
-      
-      
+        int n = rand.nextInt(eventList.size());
+        
+        if ( eventList.get(n).getIsFinished())
+        {
+            events();
+        }
+        else
+        {   
+            eventList.get(n).printDescription();
+            m1.setBalance(eventList.get(n).getPenalty());   
+        }
+        
+        
+        switch (n)
+                    {
+                        case 1:
+                            inventory.forEach((var) -> 
+                            {
+                                var.setSpoilStatus(true);
+                            } );
+                            break;
+                        default:
+                            
+                            break;
+                    }
     }
-    public void givePoint()
-    {
-      Point point = new Point();
-      
-      
-      point.getPoint();
-      point.setPointPlusOne();
-    }
+    
    
     public void play() 
     {            
@@ -688,7 +724,8 @@ public class Game
                 if (var.getDay() != time.getDateOfDays() || var.getFinished()) continue;
                 
                 ph.setNotifications(var.getDescription());
-                //System.out.println("Quest: " + var.getDescription());    
+                
+                   
             }
             
             
