@@ -5,12 +5,14 @@ public class Events {
     private final String description;
     private boolean isFinished = false;
     private final double minusBalance;
+    private final int day;
     
     
-    public Events(String description, double minusBalance)
+    public Events(int day, String description, double minusBalance)
     {
         this.description = description;
         this.minusBalance = minusBalance;
+        this.day = day;
         
     }
     
@@ -34,4 +36,8 @@ public class Events {
         return minusBalance;
     }
     
+    public int getDay()
+    {
+        return day;
+    }
 }

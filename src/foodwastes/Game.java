@@ -2,7 +2,7 @@ package foodwastes;
 
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.Random;
+
 
 public class Game 
 {
@@ -16,9 +16,6 @@ public class Game
     Point point = new Point();
     Smartphone ph = new Smartphone();
     monetarySystem m1 = new monetarySystem();
-    Random rand = new Random();
-    
-    
     
     ArrayList<Item> inventory = new ArrayList();
     ArrayList<Quests> questList = new ArrayList();
@@ -143,17 +140,15 @@ public class Game
         
         Quests questOne = new Quests( 1, "You need to pickup the key outside your apartment, and unlock your house door!", "You just unlocked your front door.", outside, key);
         Quests questTwo = new Quests(2, "You need to pickup the letter inside your apartment, it is a letter for your grandmar, you better bring it to post office in fakta.", "You just gave your letter to the post office.", supermarked, letter);
-        Quests questThree = new Quests(3, "Instead of going to sleep, you went out with your friends. Doing the night you bought McDonalds and your food at home spoiled. ", "", McDonalds, cake);
-        
-        
+            
         questList.add(questOne);
         questList.add(questTwo);
-        questList.add(questThree);
+       
         
         // Create Events
         
-        Events e1 = new Events("Instead of going to sleep, you went out with your friends. Doing the night you bought McDonalds and your food at home spoiled.", 200);
-        Events e2 = new Events("test", 150);
+        Events e1 = new Events(3, "Instead of going to sleep, you went out with your friends. Doing the night you bought McDonalds and your food at home spoiled.", 200);
+        Events e2 = new Events(4, "test", 150);
         
         eventList.add(e1);
         eventList.add(e2);
@@ -162,31 +157,37 @@ public class Game
     
     public void events()
     {
-        int n = rand.nextInt(eventList.size());
-        
-        if ( eventList.get(n).getIsFinished())
+        for(Events var : eventList)
         {
-            events();
-        }
-        else
-        {   
-            eventList.get(n).printDescription();
-            m1.setBalance(eventList.get(n).getPenalty());   
-        }
-        
-        
-        switch (n)
+            if (var.getIsFinished()) continue;
+            
+            if (time.getDateOfDays() == var.getDay())
+            {
+                 
+            switch (var.getDay())
                     {
-                        case 1:
-                            inventory.forEach((var) -> 
+                        case 3:
+ 
+                            var.printDescription();
+                            m1.setBalance(var.getPenalty()); 
+                            inventory.forEach((items) -> 
                             {
-                                var.setSpoilStatus(true);
+                                items.setSpoilStatus(true);
                             } );
+                            var.setEventTrue();
                             break;
+                        case 4:
+                            var.printDescription();
+                            m1.setBalance(var.getPenalty());
+                            
+                            break;
+                        
                         default:
                             
                             break;
                     }
+            }
+        }
     }
     
    
@@ -800,6 +801,7 @@ public class Game
             time.swichDayWithBed();
             System.out.println("You just slept " + currentRoom.getShortDescription() + ". You had 6 hours of sleep. It is now day: " + time.getDateOfDays() + " and the clock is " + time.getDateOfHours());
             time.checkForDaysQuitGame();
+            events();
         } 
         else  
         {
@@ -807,6 +809,7 @@ public class Game
             System.out.println("You just slept " + currentRoom.getShortDescription() + ". You had 16 hours of sleep. It is now day: " + time.getDateOfDays() + " and the clock is " + time.getDateOfHours());
             System.out.println("It is better to sleep inside your bedroom");
             time.checkForDaysQuitGame();
+            events();
         }
    
     }
