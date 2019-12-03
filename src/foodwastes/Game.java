@@ -140,15 +140,21 @@ public class Game
         
         Quests questOne = new Quests( 1, "You need to pickup the key outside your apartment, and unlock your house door!", "You just unlocked your front door.", outside, key);
         Quests questTwo = new Quests(2, "You need to pickup the letter inside your apartment, it is a letter for your grandmar, you better bring it to post office in fakta.", "You just gave your letter to the post office.", supermarked, letter);
-            
+     // Quests questThree = new Quests(4, "", ,);
+     // Quests questFour = new Quests(6, "", ,);
+     // Quests questFive = new Quests(7, "", ,);
+     
+     
         questList.add(questOne);
         questList.add(questTwo);
-       
-        
+    //  questList.add(questThree);
+    //  questList.add(questFour);
+    //  questList.add(questFive);
+    
         // Create Events
         
         Events e1 = new Events(3, "Instead of going to sleep, you went out with your friends. Doing the night you bought McDonalds and your food at home spoiled.", 200);
-        Events e2 = new Events(4, "test", 150);
+        Events e2 = new Events(5, "test", 150);
         
         eventList.add(e1);
         eventList.add(e2);
@@ -176,7 +182,7 @@ public class Game
                             } );
                             var.setEventTrue();
                             break;
-                        case 4:
+                        case 5:
                             var.printDescription();
                             m1.setBalance(var.getPenalty());
                             
